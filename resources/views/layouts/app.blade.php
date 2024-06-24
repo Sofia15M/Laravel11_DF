@@ -16,6 +16,7 @@
         <!-- Styles -->
         @livewireStyles
         <script src="{{ asset('js/alertify.min.js') }}"></script>
+        <script src="{{ asset('js/dropdown.js')}}"></script>
         <link rel="stylesheet" href="{{ asset('css/alertify.min.css') }}">
     </head>
     <body class="font-sans antialiased">

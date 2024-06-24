@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ResidenteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,8 +16,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    //ruta para el controller Student
-    Route::resource('students', StudentController::class);
+    //ruta para el controller
+    Route::resource('residentes', ResidenteController::class);
+    Route::delete('/residentes/{id}', 'ResidenteController@destroy')->name('residentes.destroy');
 });
 
 

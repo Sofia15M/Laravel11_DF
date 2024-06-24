@@ -6,20 +6,52 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <img src="{{ asset('img/LogoC.png') }}" alt="Logo" class="block h-9 w-auto">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Bienvenido') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                        {{ __('Unidad') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                        {{ __('Apartamentos') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                        {{ __('Residentes') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                        {{ __('Propietarios') }}
+                    </x-nav-link>
+
+                    <!-- Dropdown Menu -->
+                    <div class="relative" @mouseenter="open = true" @mouseleave="open = false">
+                        <x-nav-link href="#" class="flex items-center">
+                            Personal Unidad
+                            <svg class="ml-2 h-5 w-5 m-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </x-nav-link>
+
+                        <!-- Dropdown items -->
+                        <div x-show="open" class="absolute z-50 bg-white dark:bg-gray-800 rounded-md shadow-lg mt-2 w-40" @click.away="open = false">
+                            <x-dropdown-link href="#">Administrador</x-dropdown-link>
+                            <x-dropdown-link href="#">Vigilante</x-dropdown-link>
+                            <x-dropdown-link href="#">Personal de Limpieza</x-dropdown-link>
+                        </div>
+                    </div>
+
+                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                        {{ __('Visitantes') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                        {{ __('Domiciliarios') }}
                     </x-nav-link>
                 </div>
-
-                <x-nav-link href="{{ route('students.index') }}" :active="request()->routeIs('students.index')">
-                    {{ __('Students') }}
-                </x-nav-link>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -99,11 +131,11 @@
                         <x-slot name="content">
                             <!-- Account Management -->
                             <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
+                                {{ __('Administrar cuenta') }}
                             </div>
 
                             <x-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                {{ __('Pefil') }}
                             </x-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -120,7 +152,7 @@
 
                                 <x-dropdown-link href="{{ route('logout') }}"
                                          @click.prevent="$root.submit();">
-                                    {{ __('Log Out') }}
+                                    {{ __('Cerrar sesión') }}
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
