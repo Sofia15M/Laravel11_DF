@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('ID_UNIDAD')->nullable()->index('id_unidad');
             $table->string('status', 10)->nullable()->default('active');
             $table->integer('ID_Propietario')->nullable()->index('id_propietario');
+            $table->timestamps();
         });
     }
 

@@ -1,10 +1,18 @@
 <?php
 
+use App\Http\Controllers\AdministradorController;
+use App\Http\Controllers\ApartamentoController;
+use App\Http\Controllers\DomiciliarioController;
+use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\PropietarioController;
 use App\Http\Controllers\ResidenteController;
+use App\Http\Controllers\UnidadController;
+use App\Http\Controllers\VigilanteController;
+use App\Http\Controllers\VisitanteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::middleware([
@@ -17,8 +25,16 @@ Route::middleware([
     })->name('dashboard');
 
     //ruta para el controller
+    Route::resource('unidads', UnidadController::class);
     Route::resource('residentes', ResidenteController::class);
-    Route::delete('/residentes/{id}', 'ResidenteController@destroy')->name('residentes.destroy');
+    Route::resource('apartamentos', ApartamentoController::class);
+    Route::resource('propietarios', PropietarioController::class);
+    Route::resource('administradors', AdministradorController::class);
+    Route::resource('vigilantes', VigilanteController::class);
+    Route::resource('empleados', EmpleadoController::class);
+    Route::resource('visitantes', VisitanteController::class);
+    Route::resource('domiciliarios', DomiciliarioController::class);
+    //Route::delete('/residentes/{id}', 'ResidenteController@destroy')->name('residentes.destroy');
 });
 
 

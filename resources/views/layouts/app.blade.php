@@ -11,6 +11,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <!--Favicon-->
+        <link rel="shortcut icon" href="{{ asset('img/LogoC.png')}}" type="image/x-icon">
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <!-- Styles -->
@@ -18,6 +21,7 @@
         <script src="{{ asset('js/alertify.min.js') }}"></script>
         <script src="{{ asset('js/dropdown.js')}}"></script>
         <link rel="stylesheet" href="{{ asset('css/alertify.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/color.css') }}">
     </head>
     <body class="font-sans antialiased">
         <x-banner />

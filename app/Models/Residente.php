@@ -17,7 +17,7 @@ class Residente extends Model
         'Nombre_Residente',
         'Tel_Cel_Residente',
         'ID_Apartamento',
-        'Foto_Residente', // Asegúrate de incluirlo aquí
+        'Foto_Residente' // Asegúrate de incluirlo aquí
     ];
 
     public $incrementing = false; // Si estás manejando manualmente el ID

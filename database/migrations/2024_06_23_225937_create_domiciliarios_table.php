@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('domiciliarios', function (Blueprint $table) {
             $table->integer('Id_Domiciliario')->primary();
-            $table->string('N_Apartamento', 200)->nullable();
             $table->string('Nombre_Recidente', 200)->nullable();
             $table->string('Nombre_Domiciliario', 200)->nullable();
             $table->integer('id_Apartamento')->nullable()->index('id_apartamento');

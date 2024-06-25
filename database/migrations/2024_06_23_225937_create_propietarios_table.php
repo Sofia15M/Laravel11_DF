@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('propietarios', function (Blueprint $table) {
             $table->integer('ID_Propietario')->primary();
-            $table->binary('Foto_Propietario');
+            $table->string('Foto_Propietario')->nullable();
             $table->string('Nombre_Propietario', 100);
             $table->string('Tel_Cel_Propietario', 255);
             $table->timestamp('Fecha_Registro')->useCurrentOnUpdate()->nullable()->useCurrent();
             $table->string('status', 10)->nullable()->default('active');
+            $table->timestamps();
         });
     }
 

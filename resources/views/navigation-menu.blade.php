@@ -15,16 +15,16 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Bienvenido') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                    <x-nav-link href="{{ route('unidads.index') }}" :active="request()->routeIs('unidads.index')">
                         {{ __('Unidad') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                    <x-nav-link href="{{ route('apartamentos.index') }}" :active="request()->routeIs('apartamentos.index')">
                         {{ __('Apartamentos') }}
                     </x-nav-link>
                     <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
                         {{ __('Residentes') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                    <x-nav-link href="{{ route('propietarios.index') }}" :active="request()->routeIs('propietarios.index')">
                         {{ __('Propietarios') }}
                     </x-nav-link>
 
@@ -39,18 +39,20 @@
 
                         <!-- Dropdown items -->
                         <div x-show="open" class="absolute z-50 bg-white dark:bg-gray-800 rounded-md shadow-lg mt-2 w-40" @click.away="open = false">
-                            <x-dropdown-link href="#">Administrador</x-dropdown-link>
-                            <x-dropdown-link href="#">Vigilante</x-dropdown-link>
-                            <x-dropdown-link href="#">Personal de Limpieza</x-dropdown-link>
+                            <x-dropdown-link href="{{ route('administradors.index')}}">Administradores</x-dropdown-link>
+                            <x-dropdown-link href="{{ route('vigilantes.index') }}">Vigilantes</x-dropdown-link>
+                            <x-dropdown-link href="{{ route('empleados.index') }}">Empleados</x-dropdown-link>
                         </div>
                     </div>
 
-                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                    <x-nav-link href="{{ route('visitantes.index') }}" :active="request()->routeIs('visitantes.index')">
                         {{ __('Visitantes') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+
+                    <x-nav-link href="{{ route('domiciliarios.index') }}" :active="request()->routeIs('domiciliarios.index')">
                         {{ __('Domiciliarios') }}
                     </x-nav-link>
+
                 </div>
             </div>
 

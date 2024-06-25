@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vigilante', function (Blueprint $table) {
+        Schema::create('vigilantes', function (Blueprint $table) {
             $table->integer('ID_Vigilante')->primary();
             $table->binary('Foto_Vigilante');
             $table->string('Nombre_Vigilante', 100);
