@@ -53,6 +53,10 @@
                         {{ __('Domiciliarios') }}
                     </x-nav-link>
 
+                    <x-nav-link href="{{ route('auth.register') }}" :active="request()->routeIs('auth.register')">
+                        {{ __('Crear') }}
+                    </x-nav-link>
+
                 </div>
             </div>
 

@@ -34,6 +34,10 @@ Route::middleware([
     Route::resource('empleados', EmpleadoController::class);
     Route::resource('visitantes', VisitanteController::class);
     Route::resource('domiciliarios', DomiciliarioController::class);
+    Route::get('registros', function () {
+        return view('auth.register');
+    })->name('auth.register');
+
     //Route::delete('/residentes/{id}', 'ResidenteController@destroy')->name('residentes.destroy');
 });
 

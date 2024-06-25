@@ -1,10 +1,11 @@
 <x-guest-layout>
     <x-authentication-card>
+
+        <x-validation-errors class="mb-4" />
+
         <x-slot name="logo">
             <img src="{{ asset('img/logoC.png') }}" alt="Logo" class="h-16 w-auto">
         </x-slot>
-
-        <x-validation-errors class="mb-4" />
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
