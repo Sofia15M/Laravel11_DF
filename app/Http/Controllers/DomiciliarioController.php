@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Domiciliario;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DomiciliarioController extends Controller
 {
@@ -16,6 +17,11 @@ class DomiciliarioController extends Controller
         return view('domiciliarios.index', compact('domiciliarios'));
     }
 
+    public function pdf(){
+        $domiciliarios=Domiciliario::all();
+        $pdf = Pdf::loadView('domiciliarios.pdf', compact('domiciliarios'));
+        return $pdf->stream();
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Administradores</title>
+        <title>Visitantes</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -59,26 +59,31 @@
     </head>
 
     <body>
-        <h2>Administradores</h2>
+        <h2>Visitantes</h2>
 
-        <table class="table-auto w-full">
+        <table>
             <thead>
                 <tr>
                     <th">N. Identificación</th>
                     <th">Foto</th>
                     <th">Nombre Completo</th>
                     <th">Tel/Cel</th>
-                    <th">Fecha Registro</th>
+                    <th">N. Apartamento</th>
+                    <th">Hora de Ingreso</th>
+                    <th">Hora de Salida</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($administradors as $administrador)
+                @foreach($visitantes as $visitante)
                 <tr>
-                    <td">{{ $administrador->ID_Administrador }}</td>
-                    <td">{{ $administrador->Foto_Administrador }}</td>
-                    <td">{{ $administrador->Nombre_Administrador }}</td>
-                    <td">{{ $administrador->Tel_Cel_Administrador }}</td>
-                    <td">{{ $administrador->Fecha_Registro }}</td>
+                    <td">{{ $visitante->ID_Visitante }}</td>
+                    <td">{{ $visitante->Foto_Visitante }}</td>
+                    <td">{{ $visitante->Nombre_Visitante }}</td>
+                    <td">{{ $visitante->Tel_Cel_Visitante }}</td>
+                    <td">{{ $visitante->ID_Apartamento }}</td>
+                    <td">{{ $visitante->Hora_Ingreso }}</td>
+                    <td">{{ $visitante->Hora_Salida }}</td>
+
                 </tr>
                 @endforeach
             </tbody>

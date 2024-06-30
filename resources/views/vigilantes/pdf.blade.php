@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Administradores</title>
+        <title>Vigilante</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -59,26 +59,32 @@
     </head>
 
     <body>
-        <h2>Administradores</h2>
+        <h2>Vigilantes</h2>
 
-        <table class="table-auto w-full">
+
+        <table>
             <thead>
                 <tr>
-                    <th">N. Identificación</th>
-                    <th">Foto</th>
-                    <th">Nombre Completo</th>
-                    <th">Tel/Cel</th>
-                    <th">Fecha Registro</th>
+                    <th>N. Identificación</th>
+                    <th>Foto</th>
+                    <th>Nombre Completo</th>
+                    <th>Cargo</th>
+                    <th>Tel/Cel</th>
+                    <th>Jornada</th>
+                    <th>Fecha_Registro</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($administradors as $administrador)
+                @foreach($vigilantes as $vigilante)
                 <tr>
-                    <td">{{ $administrador->ID_Administrador }}</td>
-                    <td">{{ $administrador->Foto_Administrador }}</td>
-                    <td">{{ $administrador->Nombre_Administrador }}</td>
-                    <td">{{ $administrador->Tel_Cel_Administrador }}</td>
-                    <td">{{ $administrador->Fecha_Registro }}</td>
+                    <td>{{ $vigilante->ID_Vigilante }}</td>
+                    <td>{{ $vigilante->Foto_Vigilante }}</td>
+                    <td>{{ $vigilante->Nombre_Vigilante }}</td>
+                    <td>{{ $vigilante->Cargo_Vigilante }}</td>
+                    <td>{{ $vigilante->Tel_Cel_Vigilante }}</td>
+                    <td>{{ $vigilante->Tiempo_trabajo }}</td>
+                    <td>{{ $vigilante->Fecha_Registro }}</td>
+
                 </tr>
                 @endforeach
             </tbody>

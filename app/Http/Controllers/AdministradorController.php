@@ -37,7 +37,7 @@ class AdministradorController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ID_Administrador' => 'required|string|max:255', // Cambia `string` por `integer` si el ID es un número entero
+            'ID_Administrador' => 'required|integer', // Cambia `string` por `integer` si el ID es un número entero
             'Foto_Administrador' => 'nullable|string|max:255',
             'Nombre_Administrador' => 'required|string|max:255',
             'Edad_Administrador' => 'nullable|integer',
@@ -46,12 +46,12 @@ class AdministradorController extends Controller
             'Tel_Cel_Administrador' => 'nullable|string|max:255',
             'Tiempo_trabajo' => 'nullable|string|max:255',
             'Fecha_Registro' => 'nullable|date',
-            'ID_UNIDAD' => 'nullable|integer',
+            'ID_UNIDAD' => 'nullable|integer'
         ]);
 
         // Crear el registro del vigilante
         Administrador::create([
-            'ID_Administrador' => $request->input('ID_Administrador', uniqid()), // Proporciona un valor único si no se proporciona
+            'ID_Administrador' => $request->input('ID_Administrador'), // Proporciona un valor único si no se proporciona
             'Foto_Administrador' => $request->input('Foto_Administrador', 'default.jpg'),
             'Nombre_Administrador' => $request->input('Nombre_Administrador'),
             'Edad_Administrador' => $request->input('Edad_Administrador'),

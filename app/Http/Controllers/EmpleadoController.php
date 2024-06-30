@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empleado;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class EmpleadoController extends Controller
 {
@@ -16,6 +17,11 @@ class EmpleadoController extends Controller
         return view('empleados.index', compact('empleados'));
     }
 
+    public function pdf(){
+        $empleados=Empleado::all();
+        $pdf = Pdf::loadView('empleados.pdf', compact('empleados'));
+        return $pdf->stream();
+    }
     /**
      * Show the form for creating a new resource.
      */

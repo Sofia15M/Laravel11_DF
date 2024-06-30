@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Visitante;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VisitanteController extends Controller
 {
@@ -14,6 +15,12 @@ class VisitanteController extends Controller
     {
         $visitantes = Visitante::all();
         return view('visitantes.index', compact('visitantes'));
+    }
+
+    public function pdf(){
+        $visitantes=Visitante::all();
+        $pdf = Pdf::loadView('visitantes.pdf', compact('visitantes'));
+        return $pdf->stream();
     }
 
     /**

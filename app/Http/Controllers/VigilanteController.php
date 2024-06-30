@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vigilante;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class VigilanteController extends Controller
 {
@@ -14,6 +15,12 @@ class VigilanteController extends Controller
     {
         $vigilantes = Vigilante::all();
         return view('vigilantes.index', compact('vigilantes'));
+    }
+
+    public function pdf(){
+        $vigilantes=Vigilante::all();
+        $pdf = Pdf::loadView('vigilantes.pdf', compact('vigilantes'));
+        return $pdf->stream();
     }
 
     /**

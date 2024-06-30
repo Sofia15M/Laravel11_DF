@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Propietario;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PropietarioController extends Controller
 {
@@ -16,6 +17,11 @@ class PropietarioController extends Controller
         return view('propietarios.index', compact('propietarios'));
     }
 
+    public function pdf(){
+        $propietarios=Propietario::all();
+        $pdf = Pdf::loadView('propietarios.pdf', compact('propietarios'));
+        return $pdf->stream();
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Administradores</title>
+        <title>Residentes</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -59,26 +59,30 @@
     </head>
 
     <body>
-        <h2>Administradores</h2>
+        <h2>Residentes</h2>
 
-        <table class="table-auto w-full">
+
+        <table>
             <thead>
                 <tr>
-                    <th">N. Identificación</th>
-                    <th">Foto</th>
-                    <th">Nombre Completo</th>
-                    <th">Tel/Cel</th>
-                    <th">Fecha Registro</th>
+                    <th>N. Identificación</th>
+                    <th>Foto</th>
+                    <th>Nombre Completo</th>
+                    <th>Tel/Cel</th>
+                    <th>N. Apartamento</th>
+                    <th>Fecha Registro</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($administradors as $administrador)
+                @foreach($residentes as $residente)
                 <tr>
-                    <td">{{ $administrador->ID_Administrador }}</td>
-                    <td">{{ $administrador->Foto_Administrador }}</td>
-                    <td">{{ $administrador->Nombre_Administrador }}</td>
-                    <td">{{ $administrador->Tel_Cel_Administrador }}</td>
-                    <td">{{ $administrador->Fecha_Registro }}</td>
+                    <td>{{ $residente->ID_Residente }}</td>
+                    <td>{{ $residente->Foto_Residente }}</td>
+                    <td>{{ $residente->Nombre_Residente }}</td>
+                    <td>{{ $residente->Tel_Cel_Residente }}</td>
+                    <td>{{ $residente->ID_Apartamento }}</td>
+                    <td>{{ $residente->Fecha_Registro }}</td>
+
                 </tr>
                 @endforeach
             </tbody>

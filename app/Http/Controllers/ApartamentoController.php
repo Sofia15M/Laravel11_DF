@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Apartamento;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ApartamentoController extends Controller
 {
@@ -14,6 +15,12 @@ class ApartamentoController extends Controller
     {
         $apartamentos = Apartamento::all();
         return view('apartamentos.index', compact('apartamentos'));
+    }
+
+    public function pdf(){
+        $apartamentos=Apartamento::all();
+        $pdf = Pdf::loadView('apartamentos.pdf', compact('apartamentos'));
+        return $pdf->stream();
     }
 
     /**

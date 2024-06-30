@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Residente;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ResidenteController extends Controller
 {
@@ -14,6 +15,12 @@ class ResidenteController extends Controller
     {
         $residentes = Residente::all();
         return view('residentes.index', compact('residentes'));
+    }
+
+    public function pdf(){
+        $residentes=Residente::all();
+        $pdf = Pdf::loadView('residentes.pdf', compact('residentes'));
+        return $pdf->stream();
     }
 
     /**

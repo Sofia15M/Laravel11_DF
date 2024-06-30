@@ -25,7 +25,15 @@ Route::middleware([
     })->name('dashboard');
 
     //Pdf
+    Route::get('apartamentos/pdf', [ApartamentoController::class, 'pdf'])->name('apartamentos.pdf');
+    Route::get('residentes/pdf', [ResidenteController::class, 'pdf'])->name('residentes.pdf');
+    Route::get('propietarios/pdf', [PropietarioController::class, 'pdf'])->name('propietarios.pdf');
     Route::get('administradors/pdf', [AdministradorController::class, 'pdf'])->name('administradors.pdf');
+    Route::get('vigilantes/pdf', [VigilanteController::class, 'pdf'])->name('vigilantes.pdf');
+    Route::get('empleados/pdf', [EmpleadoController::class, 'pdf'])->name('empleados.pdf');
+    Route::get('visitantes/pdf', [VisitanteController::class, 'pdf'])->name('visitantes.pdf');
+    Route::get('domiciliarios/pdf', [DomiciliarioController::class, 'pdf'])->name('domiciliarios.pdf');
+
     //ruta para el controller
     Route::resource('unidads', UnidadController::class);
     Route::resource('residentes', ResidenteController::class);
