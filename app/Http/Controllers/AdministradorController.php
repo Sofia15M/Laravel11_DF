@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Administrador;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdministradorController extends Controller
 {
@@ -14,6 +15,12 @@ class AdministradorController extends Controller
     {
         $administradors = Administrador::all();
         return view('administradors.index', compact('administradors'));
+    }
+
+    public function pdf(){
+        $administradors=Administrador::all();
+        $pdf = Pdf::loadView('administradors.pdf', compact('administradors'));
+        return $pdf->stream();
     }
 
     /**

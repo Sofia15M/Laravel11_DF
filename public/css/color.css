@@ -20,7 +20,6 @@ body{
     z-index: 0;
 }
 
-
 :root {
     --Negro: #252525;
     --gris: #D7D5D3;
@@ -38,4 +37,76 @@ body{
     --naranja: #CA6702;
     --naranja1: #BB3E03;
     --Otro: #c2dffe;
+}
+
+.bg-Negro {
+    background-color: var(--Negro);
+}
+
+.bg-gris {
+    background-color: var(--gris);
+}
+
+.bg-Azul1 {
+    background-color: var(--Azul1);
+}
+
+.bg-Azul2 {
+    background-color: var(--Azul2);
+}
+
+.bg-Azul3 {
+    background-color: var(--Azul3);
+}
+
+.bg-Azul4 {
+    background-color: var(--Azul4);
+}
+
+.bg-Azul5 {
+    background-color: var(--Azul5);
+}
+
+.bg-azul {
+    background-color: var(--azul);
+}
+
+.bg-azul1 {
+    background-color: var(--azul1);
+}
+
+.bg-rojo {
+    background-color: var(--rojo);
+}
+
+.bg-rojo1 {
+    background-color: var(--rojo1);
+}
+
+.bg-verde {
+    background-color: var(--verde);
+}
+
+.bg-verde1 {
+    background-color: var(--verde1);
+}
+
+.bg-naranja {
+    background-color: var(--naranja);
+}
+
+.bg-naranja1 {
+    background-color: var(--naranja1);
+}
+
+.bg-Otro {
+    background-color: var(--Otro);
+}
+
+.text-gris {
+    color: var(--gris);
+}
+
+.text-Azul5 {
+    color: var(--Azul5);
 }

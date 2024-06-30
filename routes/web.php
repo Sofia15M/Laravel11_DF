@@ -24,6 +24,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+    //Pdf
+    Route::get('administradors/pdf', [AdministradorController::class, 'pdf'])->name('administradors.pdf');
     //ruta para el controller
     Route::resource('unidads', UnidadController::class);
     Route::resource('residentes', ResidenteController::class);

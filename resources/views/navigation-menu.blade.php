@@ -30,8 +30,8 @@
 
                     <!-- Dropdown Menu -->
                     <div class="relative" @mouseenter="open = true" @mouseleave="open = false">
-                        <x-nav-link href="#" class="flex items-center">
-                            Personal Unidad
+                        <x-nav-link href="#">
+                            Personal
                             <svg class="ml-2 h-5 w-5 m-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
@@ -40,7 +40,9 @@
                         <!-- Dropdown items -->
                         <div x-show="open" class="absolute z-50 bg-white dark:bg-gray-800 rounded-md shadow-lg mt-2 w-40" @click.away="open = false">
                             <x-dropdown-link href="{{ route('administradors.index')}}">Administradores</x-dropdown-link>
+                            <hr>
                             <x-dropdown-link href="{{ route('vigilantes.index') }}">Vigilantes</x-dropdown-link>
+                            <hr>
                             <x-dropdown-link href="{{ route('empleados.index') }}">Empleados</x-dropdown-link>
                         </div>
                     </div>
