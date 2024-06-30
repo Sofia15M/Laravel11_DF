@@ -3,9 +3,6 @@
 
         <x-validation-errors class="mb-4" />
 
-        <x-slot name="logo">
-            <img src="{{ asset('img/logoC.png') }}" alt="Logo" class="h-16 w-auto">
-        </x-slot>
 
         @if (session('status'))
             <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
@@ -17,18 +14,18 @@
             @csrf
 
             <div>
-                <x-label for="email" value="{{ __('Gmail') }}" class="text-white" />
-                <x-input id="email" class="block mt-1 w-full p-2 border-b border-white bg-transparent text-white focus:outline-none placeholder-white" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <x-label for="email" value="{{ __('Gmail') }}" class="text-black" />
+                <x-input id="email" class="block mt-1 w-full p-2 border-b border-black bg-transparent text-black focus:outline-none placeholder-black" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Contraseña') }}" class="text-white" />
-                <x-input id="password" class="block mt-1 w-full p-2 border-b border-white bg-transparent text-white focus:outline-none placeholder-white" type="password" name="password" required autocomplete="current-password" />
+                <x-label for="password" value="{{ __('Contraseña') }}" class="text-black" />
+                <x-input id="password" class="block mt-1 w-full p-2 border-b border-black bg-transparent text-black focus:outline-none placeholder-black" type="password" name="password" required autocomplete="current-password" />
             </div>
 
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" class="text-white" />
+                    <x-checkbox id="remember_me" name="remember" class="text-black" />
                     <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Recordar') }}</span>
                 </label>
             </div>
@@ -40,7 +37,7 @@
                     </a>
                 @endif
 
-                <x-button class="ms-4 bg-var(--Azul3) text-white px-4 py-2 rounded hover:bg-var(--Azul4)">
+                <x-button class="ms-4 bg-var(--Azul3) text-black px-4 py-2 rounded hover:bg-var(--Azul4)">
                     {{ __('Iniciar') }}
                 </x-button>
             </div>

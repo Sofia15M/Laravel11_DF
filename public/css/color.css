@@ -1,8 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@300&family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Montserrat+Alternates|Poppins&display=swap');
+
+/*font-family: 'Lobster', cursive; Titulos*/
+/*font-family: 'Bitter', serif; Otros textos*/
+/*font-family: 'Montserrat Alternates', sans-serif;*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat Alternates', sans-serif;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-size: cover; /* Ajusta el tamaño de la imagen al tamaño de la ventana del navegador */
+    z-index: 0;
+}
+
+
 :root {
     --Negro: #252525;
+    --gris: #D7D5D3;
     --Azul1: #00112D;
     --Azul2: #011640;
     --Azul3: #297EA3;
     --Azul4: #79DCF2;
     --Azul5: #BFF9FF;
+    --azul: #007bff;
+    --azul1: #0056b3;
+    --rojo: #AE2012;
+    --rojo1: #9B2226;
+    --verde: #558B2F;
+    --verde1: #33691E;
+    --naranja: #CA6702;
+    --naranja1: #BB3E03;
+    --Otro: #c2dffe;
 }
