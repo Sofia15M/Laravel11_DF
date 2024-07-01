@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('residentes', function (Blueprint $table) {
             $table->id('ID_Residente');
-            $table->string('Foto_Residente')->nullable(); // Permite nulos
+            $table->string('Foto_Residente'); // Permite nulos
             $table->string('Nombre_Residente', 100);
             $table->string('Tel_Cel_Residente', 255);
             $table->timestamp('Fecha_Registro')->useCurrentOnUpdate()->nullable()->useCurrent();

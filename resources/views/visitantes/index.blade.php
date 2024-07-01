@@ -11,7 +11,8 @@
                 <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
 
                     <div class="mb-4">
-                        <a href="{{ route('visitantes.create') }}" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded">Crear visitante</a>
+                        <a href="{{ route('visitantes.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded">Crear visitante</a>
+                        <a href="#" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded">Desativados</a>
                         <a href="{{ route('visitantes.pdf')}}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded float-right" title="Imprimir" target="_blanl">
                             <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 6 2 18 2 18 9" />
@@ -39,7 +40,9 @@
                             @foreach($visitantes as $visitante)
                             <tr>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $visitante->ID_Visitante }}</td>
-                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $visitante->Foto_Visitante }}</td>
+                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">
+                                    <img src="{{ asset('storage/' . $visitante->Foto_Visitante) }}" alt="Foto Visitante" class="h-30 w-20 mx-auto">
+                                </td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $visitante->Nombre_Visitante }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $visitante->Tel_Cel_Visitante }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $visitante->ID_Apartamento }}</td>

@@ -38,19 +38,27 @@ class VisitanteController extends Controller
     {
         $request->validate([
             'Nombre_Visitante' => 'required|string|max:255',
+            'Foto_Visitante' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Tel_Cel_Visitante' => 'required|string|max:255',
             'ID_Apartamento' => 'required|integer',
         ]);
 
-        Visitante::create([
-            'ID_Visitante' => $request->input('ID_Visitante', uniqid()), // Proporciona un valor único
-            'Nombre_Visitante' => $request->input('Nombre_Visitante'),
-            'Tel_Cel_Visitante' => $request->input('Tel_Cel_Visitante'),
-            'ID_Apartamento' => $request->input('ID_Apartamento'),
-            'Hora_Ingreso' => $request->input('Hora_Ingreso'),
-            'Hora_Salida' => $request->input('Hora_Salida'),
-            'Foto_Visitante' => $request->input('Foto_Visitante', 'default.jpg'), // Valor predeterminado si no se proporciona
+        if ($request->hasFile('Foto_Visitante')) {
+            $image = $request->file('Foto_Visitante');
+            $path = $image->store('fotos_visitantes', 'public');
+        }
+
+        $visitante = new Visitante([
+            'ID_Visitante' => $request->get('ID_Visitante'), // Proporciona un valor único
+            'Nombre_Visitante' => $request->get('Nombre_Visitante'),
+            'Tel_Cel_Visitante' => $request->get('Tel_Cel_Visitante'),
+            'ID_Apartamento' => $request->get('ID_Apartamento'),
+            'Hora_Ingreso' => $request->get('Hora_Ingreso'),
+            'Hora_Salida' => $request->get('Hora_Salida'),
+            'Foto_Visitante' => $path ?? null,
         ]);
+
+        $visitante->save();
 
         return redirect()->route('visitantes.index');
     }

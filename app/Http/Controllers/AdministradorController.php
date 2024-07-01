@@ -36,9 +36,10 @@ class AdministradorController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'ID_Administrador' => 'required|integer', // Cambia `string` por `integer` si el ID es un número entero
-            'Foto_Administrador' => 'nullable|string|max:255',
+            'Foto_Administrador' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Nombre_Administrador' => 'required|string|max:255',
             'Edad_Administrador' => 'nullable|integer',
             'Cargo_Administrador' => 'nullable|string|max:255',
@@ -49,19 +50,25 @@ class AdministradorController extends Controller
             'ID_UNIDAD' => 'nullable|integer'
         ]);
 
-        // Crear el registro del vigilante
-        Administrador::create([
-            'ID_Administrador' => $request->input('ID_Administrador'), // Proporciona un valor único si no se proporciona
-            'Foto_Administrador' => $request->input('Foto_Administrador', 'default.jpg'),
-            'Nombre_Administrador' => $request->input('Nombre_Administrador'),
-            'Edad_Administrador' => $request->input('Edad_Administrador'),
-            'Cargo_Administrador' => $request->input('Cargo_Administrador'),
-            'Direccion_Administrador' => $request->input('Direccion_Administrador'),
-            'Tel_Cel_Administrador' => $request->input('Tel_Cel_Administrador'),
-            'Tiempo_trabajo' => $request->input('Tiempo_trabajo'),
-            'Fecha_Registro' => $request->input('Fecha_Registro'),
-            'ID_UNIDAD' => $request->input('ID_UNIDAD'),
+        if ($request->hasFile('Foto_Administrador')) {
+            $image = $request->file('Foto_Administrador');
+            $path = $image->store('fotos_administrador', 'public');
+        }
+
+        $administrador = new Administrador([
+            'ID_Administrador' => $request->get('ID_Administrador'), // Proporciona un valor único si no se proporciona
+            'Foto_Administrador' => $path ?? null,
+            'Nombre_Administrador' => $request->get('Nombre_Administrador'),
+            'Edad_Administrador' => $request->get('Edad_Administrador'),
+            'Cargo_Administrador' => $request->get('Cargo_Administrador'),
+            'Direccion_Administrador' => $request->get('Direccion_Administrador'),
+            'Tel_Cel_Administrador' => $request->get('Tel_Cel_Administrador'),
+            'Tiempo_trabajo' => $request->get('Tiempo_trabajo'),
+            'Fecha_Registro' => $request->get('Fecha_Registro'),
+            'ID_UNIDAD' => $request->get('ID_UNIDAD'),
         ]);
+
+        $administrador->save();
 
         return redirect()->route('administradors.index');
     }

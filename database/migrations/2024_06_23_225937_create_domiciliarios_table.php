@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('domiciliarios', function (Blueprint $table) {
             $table->integer('Id_Domiciliario')->primary();
             $table->string('Nombre_Recidente', 200)->nullable();
+            $table->string('Foto_Domiciliario');
             $table->string('Nombre_Domiciliario', 200)->nullable();
             $table->integer('id_Apartamento')->nullable()->index('id_apartamento');
             $table->enum('estado', ['activo', 'inactivo'])->nullable()->default('activo');

@@ -66,7 +66,6 @@
             <thead>
                 <tr>
                     <th>N. Identificación</th>
-                    <th>Foto</th>
                     <th>Nombre Completo</th>
                     <th>Cargo</th>
                     <th>Tel/Cel</th>
@@ -78,7 +77,6 @@
                 @foreach($vigilantes as $vigilante)
                 <tr>
                     <td>{{ $vigilante->ID_Vigilante }}</td>
-                    <td>{{ $vigilante->Foto_Vigilante }}</td>
                     <td>{{ $vigilante->Nombre_Vigilante }}</td>
                     <td>{{ $vigilante->Cargo_Vigilante }}</td>
                     <td>{{ $vigilante->Tel_Cel_Vigilante }}</td>

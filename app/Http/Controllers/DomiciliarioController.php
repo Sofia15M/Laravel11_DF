@@ -36,18 +36,27 @@ class DomiciliarioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Id_Domiciliario' => 'required|string|max:255',
+            'Id_Domiciliario' => 'required|integer',
             'Nombre_Domiciliario' => 'required|string|max:255',
+            'Foto_Domiciliario' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Nombre_Recidente' => 'required|string|max:255',
             'id_Apartamento' => 'required|integer'
         ]);
 
-        Domiciliario::create([
-            'Id_Domiciliario' => $request->input('Id_Domiciliario'),
-            'Nombre_Domiciliario' => $request->input('Nombre_Domiciliario'),
-            'Nombre_Recidente' => $request->input('Nombre_Recidente'),
-            'id_Apartamento' => $request->input('id_Apartamento')
+        if ($request->hasFile('Foto_Domiciliario')) {
+            $image = $request->file('Foto_Domiciliario');
+            $path = $image->store('fotos_domiciliario', 'public');
+        }
+
+        $domiciliario = new Domiciliario([
+            'Id_Domiciliario' => $request->get('Id_Domiciliario'),
+            'Nombre_Domiciliario' => $request->get('Nombre_Domiciliario'),
+            'Foto_Domiciliario' => $path ?? null,
+            'Nombre_Recidente' => $request->get('Nombre_Recidente'),
+            'id_Apartamento' => $request->get('id_Apartamento')
         ]);
+
+        $domiciliario->save();
 
         return redirect()->route('domiciliarios.index');
 

@@ -36,20 +36,28 @@ class ResidenteController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
+            'ID_Residente' => 'required|integer',
             'Nombre_Residente' => 'required|string|max:255',
-            'Tel_Cel_Residente' => 'required|string|max:255',
-            'ID_Apartamento' => 'required|integer',
+            'Foto_Residente' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'Tel_Cel_Residente' => 'required|string|max:15',
+            'ID_Apartamento' => 'required|string|max:10',
         ]);
 
-        Residente::create([
-            'ID_Residente' => $request->input('ID_Residente', uniqid()), // Proporciona un valor único
-            'Nombre_Residente' => $request->input('Nombre_Residente'),
-            'Tel_Cel_Residente' => $request->input('Tel_Cel_Residente'),
-            'ID_Apartamento' => $request->input('ID_Apartamento'),
-            'Foto_Residente' => $request->input('Foto_Residente', 'default.jpg'), // Valor predeterminado si no se proporciona
+        if ($request->hasFile('Foto_Residente')) {
+            $image = $request->file('Foto_Residente');
+            $path = $image->store('fotos_residentes', 'public');
+        }
+
+        $residente = new Residente([
+            'ID_Residente' => $request->get('ID_Residente'),
+            'Nombre_Residente' => $request->get('Nombre_Residente'),
+            'Foto_Residente' => $path ?? null,
+            'Tel_Cel_Residente' => $request->get('Tel_Cel_Residente'),
+            'ID_Apartamento' => $request->get('ID_Apartamento'),
         ]);
+
+        $residente->save();
 
         return redirect()->route('residentes.index');
     }

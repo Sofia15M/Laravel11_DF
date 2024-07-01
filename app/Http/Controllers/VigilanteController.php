@@ -36,10 +36,9 @@ class VigilanteController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
-            'ID_Vigilante' => 'required|string|max:255', // Cambia `string` por `integer` si el ID es un número entero
-            'Foto_Vigilante' => 'nullable|string|max:255',
+            'ID_Vigilante' => 'required|integer',
+            'Foto_Vigilante' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Nombre_Vigilante' => 'required|string|max:255',
             'Edad_Vigilante' => 'nullable|integer',
             'Cargo_Vigilante' => 'nullable|string|max:255',
@@ -50,19 +49,25 @@ class VigilanteController extends Controller
             'ID_UNIDAD' => 'nullable|integer',
         ]);
 
-        // Crear el registro del vigilante
-        Vigilante::create([
-            'ID_Vigilante' => $request->input('ID_Vigilante', uniqid()), // Proporciona un valor único si no se proporciona
-            'Foto_Vigilante' => $request->input('Foto_Vigilante', 'default.jpg'),
-            'Nombre_Vigilante' => $request->input('Nombre_Vigilante'),
-            'Edad_Vigilante' => $request->input('Edad_Vigilante'),
-            'Cargo_Vigilante' => $request->input('Cargo_Vigilante'),
-            'Direccion_Vigilante' => $request->input('Direccion_Vigilante'),
-            'Tel_Cel_Vigilante' => $request->input('Tel_Cel_Vigilante'),
-            'Tiempo_trabajo' => $request->input('Tiempo_trabajo'),
-            'Fecha_Registro' => $request->input('Fecha_Registro'),
-            'ID_UNIDAD' => $request->input('ID_UNIDAD'),
+        if ($request->hasFile('Foto_Vigilante')) {
+            $image = $request->file('Foto_Vigilante');
+            $path = $image->store('fotos_vigilantesr', 'public');
+        }
+
+        $vigilante = new Vigilante([
+            'ID_Vigilante' => $request->get('ID_Vigilante', uniqid()), // Proporciona un valor único si no se proporciona
+            'Foto_Vigilante' => $path ?? null,
+            'Nombre_Vigilante' => $request->get('Nombre_Vigilante'),
+            'Edad_Vigilante' => $request->get('Edad_Vigilante'),
+            'Cargo_Vigilante' => $request->get('Cargo_Vigilante'),
+            'Direccion_Vigilante' => $request->get('Direccion_Vigilante'),
+            'Tel_Cel_Vigilante' => $request->get('Tel_Cel_Vigilante'),
+            'Tiempo_trabajo' => $request->get('Tiempo_trabajo'),
+            'Fecha_Registro' => $request->get('Fecha_Registro'),
+            'ID_UNIDAD' => $request->get('ID_UNIDAD'),
         ]);
+
+        $vigilante->save();
 
         return redirect()->route('vigilantes.index');
 

@@ -35,18 +35,26 @@ class PropietarioController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
+            'ID_Propietario' => 'required|integer',
+            'Foto_Propietario' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Nombre_Propietario' => 'required|string|max:255',
-            'Tel_Cel_Propietario' => 'required|string|max:255',
+            'Tel_Cel_Propietario' => 'required|string|max:255'
         ]);
 
-        Propietario::create([
-            'ID_Propietario' => $request->input('ID_Propietario', uniqid()), // Proporciona un valor único
-            'Nombre_Propietario' => $request->input('Nombre_Propietario'),
-            'Tel_Cel_Propietario' => $request->input('Tel_Cel_Propietario'),
-            'Foto_Propietario' => $request->input('Foto_Propietario', 'default.jpg'), // Valor predeterminado si no se proporciona
+        if ($request->hasFile('Foto_Propietario')) {
+            $image = $request->file('Foto_Propietario');
+            $path = $image->store('fotos_propietarios', 'public');
+        }
+
+        $propietario = new Propietario([
+            'ID_Propietario' => $request->get('ID_Propietario', uniqid()), // Proporciona un valor único
+            'Nombre_Propietario' => $request->get('Nombre_Propietario'),
+            'Tel_Cel_Propietario' => $request->get('Tel_Cel_Propietario'),
+            'Foto_Propietario' => $path ?? null,
         ]);
+
+        $propietario->save();
 
         return redirect()->route('propietarios.index');
     }

@@ -65,7 +65,6 @@
             <thead>
                 <tr>
                     <th">N. Identificación</th>
-                    <th">Foto</th>
                     <th">Nombre Completo</th>
                     <th">Tel/Cel</th>
                     <th">Fecha Registro</th>
@@ -75,7 +74,6 @@
                 @foreach($administradors as $administrador)
                 <tr>
                     <td">{{ $administrador->ID_Administrador }}</td>
-                    <td">{{ $administrador->Foto_Administrador }}</td>
                     <td">{{ $administrador->Nombre_Administrador }}</td>
                     <td">{{ $administrador->Tel_Cel_Administrador }}</td>
                     <td">{{ $administrador->Fecha_Registro }}</td>

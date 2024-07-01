@@ -65,7 +65,6 @@
             <thead>
                 <tr>
                     <th>N. Identificación</th>
-                    <th>Foto</th>
                     <th>Nombre Completo</th>
                     <th>Tel/Cel</th>
                     <th>Fecha Registro</th>
@@ -75,7 +74,6 @@
                 @foreach($propietarios as $propietario)
                 <tr>
                     <td>{{ $propietario->ID_Propietario }}</td>
-                    <td>{{ $propietario->Foto_Propietario }}</td>
                     <td>{{ $propietario->Nombre_Propietario }}</td>
                     <td>{{ $propietario->Tel_Cel_Propietario }}</td>
                     <td>{{ $propietario->Fecha_Registro }}</td>

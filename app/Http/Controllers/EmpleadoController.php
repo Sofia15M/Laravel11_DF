@@ -36,8 +36,8 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ID_PersonalL' => 'required|string|max:255', // Cambia `string` por `integer` si el ID es un número entero
-            'Foto_PersonalL' => 'nullable|string|max:255',
+            'ID_PersonalL' => 'required|integer',
+            'Foto_PersonalL' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Nombre_PersonalL' => 'required|string|max:255',
             'Edad_PersonalL' => 'nullable|integer',
             'Cargo_PersonalL' => 'nullable|string|max:255',
@@ -48,19 +48,25 @@ class EmpleadoController extends Controller
             'ID_UNIDAD' => 'nullable|integer',
         ]);
 
-        // Crear el registro del vigilante
-        Empleado::create([
-            'ID_PersonalL' => $request->input('ID_PersonalL', uniqid()), // Proporciona un valor único si no se proporciona
-            'Foto_PersonalL' => $request->input('Foto_PersonalL', 'default.jpg'),
-            'Nombre_PersonalL' => $request->input('Nombre_PersonalL'),
-            'Edad_PersonalL' => $request->input('Edad_PersonalL'),
-            'Cargo_PersonalL' => $request->input('Cargo_PersonalL'),
-            'Direccion_PersonalL' => $request->input('Direccion_PersonalL'),
-            'Tel_Cel_PersonalL' => $request->input('Tel_Cel_PersonalL'),
-            'Tiempo_trabajo' => $request->input('Tiempo_trabajo'),
-            'Fecha_Registro' => $request->input('Fecha_Registro'),
-            'ID_UNIDAD' => $request->input('ID_UNIDAD'),
+        if ($request->hasFile('Foto_PersonalL')) {
+            $image = $request->file('Foto_PersonalL');
+            $path = $image->store('fotos_empleados', 'public');
+        }
+
+        $empleado = new Empleado([
+            'ID_PersonalL' => $request->get('ID_PersonalL', uniqid()), // Proporciona un valor único si no se proporciona
+            'Foto_PersonalL' => $path ?? null,
+            'Nombre_PersonalL' => $request->get('Nombre_PersonalL'),
+            'Edad_PersonalL' => $request->get('Edad_PersonalL'),
+            'Cargo_PersonalL' => $request->get('Cargo_PersonalL'),
+            'Direccion_PersonalL' => $request->get('Direccion_PersonalL'),
+            'Tel_Cel_PersonalL' => $request->get('Tel_Cel_PersonalL'),
+            'Tiempo_trabajo' => $request->get('Tiempo_trabajo'),
+            'Fecha_Registro' => $request->get('Fecha_Registro'),
+            'ID_UNIDAD' => $request->get('ID_UNIDAD')
         ]);
+
+        $empleado->save();
 
         return redirect()->route('empleados.index');
     }

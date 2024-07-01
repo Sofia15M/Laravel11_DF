@@ -66,7 +66,6 @@
             <thead>
                 <tr>
                     <th>N. Identificación</th>
-                    <th>Foto</th>
                     <th>Nombre Completo</th>
                     <th>Cargo</th>
                     <th>Tel/Cel</th>
@@ -78,7 +77,6 @@
                 @foreach($empleados as $empleado)
                 <tr>
                     <td>{{ $empleado->ID_PersonalL }}</td>
-                    <td>{{ $empleado->Foto_PersonalL }}</td>
                     <td>{{ $empleado->Nombre_PersonalL }}</td>
                     <td>{{ $empleado->Cargo_PersonalL }}</td>
                     <td>{{ $empleado->Tel_Cel_PersonalL }}</td>

@@ -11,7 +11,8 @@
                 <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
 
                     <div class="mb-4">
-                        <a href="{{ route('administradors.create') }}" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded">Crear personal</a>
+                        <a href="{{ route('administradors.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded">Crear Administrador</a>
+                        <a href="#" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded">Desativados</a>
                         <a href="{{ route('administradors.pdf')}}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded float-right" title="Imprimir" target="_blank">
                             <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 6 2 18 2 18 9" />
@@ -39,7 +40,9 @@
                             @foreach($administradors as $administrador)
                             <tr>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $administrador->ID_Administrador }}</td>
-                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $administrador->Foto_Administrador }}</td>
+                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">
+                                    <img src="{{ asset('storage/' . $administrador->Foto_Administrador) }}" alt="Foto Administrador" class="h-30 w-20 mx-auto">
+                                </td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $administrador->Nombre_Administrador }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $administrador->Edad_Administrador }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $administrador->Direccion_Administrador }}</td>

@@ -66,7 +66,6 @@
             <thead>
                 <tr>
                     <th>N. Identificación</th>
-                    <th>Foto</th>
                     <th>Nombre Completo</th>
                     <th>Tel/Cel</th>
                     <th>N. Apartamento</th>
@@ -77,7 +76,6 @@
                 @foreach($residentes as $residente)
                 <tr>
                     <td>{{ $residente->ID_Residente }}</td>
-                    <td>{{ $residente->Foto_Residente }}</td>
                     <td>{{ $residente->Nombre_Residente }}</td>
                     <td>{{ $residente->Tel_Cel_Residente }}</td>
                     <td>{{ $residente->ID_Apartamento }}</td>
