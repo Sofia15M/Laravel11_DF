@@ -13,8 +13,14 @@ class VigilanteController extends Controller
      */
     public function index()
     {
-        $vigilantes = Vigilante::all();
+        $vigilantes = Vigilante::where('status', 'active')->get();
         return view('vigilantes.index', compact('vigilantes'));
+    }
+
+    public function inactive()
+    {
+        $vigilantes = Vigilante::where('status', 'inactive')->get();
+        return view('vigilantes.inactive', compact('vigilantes'));
     }
 
     public function pdf(){

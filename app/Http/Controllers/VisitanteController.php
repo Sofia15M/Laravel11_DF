@@ -13,8 +13,14 @@ class VisitanteController extends Controller
      */
     public function index()
     {
-        $visitantes = Visitante::all();
+        $visitantes = Visitante::where('status', 'active')->get();
         return view('visitantes.index', compact('visitantes'));
+    }
+
+    public function inactive()
+    {
+        $visitantes = Visitante::where('status', 'inactive')->get();
+        return view('visitantes.inactive', compact('visitantes'));
     }
 
     public function pdf(){

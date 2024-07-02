@@ -13,8 +13,14 @@ class ApartamentoController extends Controller
      */
     public function index()
     {
-        $apartamentos = Apartamento::all();
+        $apartamentos = Apartamento::where('status', 'active')->get();
         return view('apartamentos.index', compact('apartamentos'));
+    }
+
+    public function inactive()
+    {
+        $apartamentos = Apartamento::where('status', 'inactive')->get();
+        return view('apartamentos.inactive', compact('apartamentos'));
     }
 
     public function pdf(){

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
-            {{ __('Lista De Administradores') }}
+            {{ __('Lista De Administradores Desativados') }}
         </h2>
     </x-slot>
 
@@ -11,14 +11,8 @@
                 <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
 
                     <div class="mb-4">
-                        <a href="{{ route('administradors.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded">Crear Administrador</a>
-                        <a href="{{ route('administradors.inactive') }}" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded">Desativados</a>
-                        <a href="{{ route('administradors.pdf')}}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded float-right" title="Imprimir" target="_blank">
-                            <svg class="h-4 w-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 6 2 18 2 18 9" />
-                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
-                                <rect x="6" y="14" width="12" height="8" />
-                            </svg>
+                        <a href="{{ route('administradors.index') }}" title="Volver atras">
+                            <svg class="h-8 w-8 text-gray-900"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <line x1="5" y1="12" x2="19" y2="12" />  <line x1="5" y1="12" x2="9" y2="16" />  <line x1="5" y1="12" x2="9" y2="8" /></svg>
                         </a>
                     </div>
 
@@ -52,12 +46,10 @@
 
                                 <td class="border px-4 py-2 text-center">
                                     <div class="flex justify-center">
-                                        <a href="{{ route('administradors.edit', $administrador->ID_Administrador) }}" class="bg-verde dark:bg-verde1 hover:bg-verde dark:hover:bg-verde1 text-white font-bold py-2 px-4 rounded mr-2">Editar</a>
-                                        <button type="button" class="bg-rojo dark:bg-rojo1 hover:bg-rojo dark:hover:bg-rojo1 text-white font-bold py-2 px-4 rounded mr-2" onclick="confirmDelete('{{ $administrador->id }}')">Eliminar</button>
+                                        <a href="#" class="bg-verde dark:bg-verde1 hover:bg-verde dark:hover:bg-verde1 text-white font-bold py-2 px-4 rounded mr-2">Activar</a>
 
                                     </div>
                                 </td>
-
                             </tr>
                             @endforeach
                         </tbody>
@@ -68,40 +60,3 @@
         </div>
     </div>
 </x-app-layout>
-
-<script>
-    // forma 1
-    function confirmDelete(id) {
-        alertify.confirm("¿Confirmar eliminar registro?",
-        function(){
-            let form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = '/administradors/' + id;
-                    form.innerHTML = '@csrf @method("DELETE")';
-                    document.body.appendChild(form);
-                    form.submit();
-            alertify.success('Aceptar');
-        },
-        function(){
-            alertify.error('Cancelar');
-        });
-    }
-
-// forma 2
-/* function confirmDelete(id) {
-    alertify.confirm("¿Confirm delete record?", function (e) {
-        if (e) {
-            let form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/administradors/' + id;
-            form.innerHTML = '@csrf @method("DELETE")';
-            document.body.appendChild(form);
-            form.submit();
-        } else {
-            alertify.error('Cancel');
-            return false;
-        }
-    });
-} */
-</script>
-

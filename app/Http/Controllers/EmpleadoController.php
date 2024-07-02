@@ -13,8 +13,14 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $empleados = Empleado::all();
+        $empleados = Empleado::where('status', 'active')->get();
         return view('empleados.index', compact('empleados'));
+    }
+
+    public function inactive()
+    {
+        $empleados = Empleado::where('status', 'inactive')->get();
+        return view('empleados.inactive', compact('empleados'));
     }
 
     public function pdf(){

@@ -13,8 +13,14 @@ class AdministradorController extends Controller
      */
     public function index()
     {
-        $administradors = Administrador::all();
+        $administradors = Administrador::where('Estado', 'activo')->get();
         return view('administradors.index', compact('administradors'));
+    }
+
+    public function inactive()
+    {
+        $administradors = Administrador::where('Estado', 'inactivo')->get();
+        return view('administradors.inactive', compact('administradors'));
     }
 
     public function pdf(){

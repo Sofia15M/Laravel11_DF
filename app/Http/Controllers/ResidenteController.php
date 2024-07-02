@@ -13,8 +13,14 @@ class ResidenteController extends Controller
      */
     public function index()
     {
-        $residentes = Residente::all();
+        $residentes = Residente::where('status', 'active')->get();
         return view('residentes.index', compact('residentes'));
+    }
+
+    public function inactive()
+    {
+        $residentes = Residente::where('status', 'inactive')->get();
+        return view('residentes.inactive', compact('residentes'));
     }
 
     public function pdf(){
