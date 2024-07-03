@@ -39,6 +39,22 @@ body{
     --Otro: #c2dffe;
 }
 
+.text-Azul3 {
+    color: var(--Azul3);
+}
+
+.text-Azul4 {
+    color: var(--Azul4);
+}
+
+.border-Azul3 {
+    border-color: var(--Azul3);
+}
+
+.border-Azul4 {
+    border-color: var(--Azul4);
+}
+
 .bg-Negro {
     background-color: var(--Negro);
 }

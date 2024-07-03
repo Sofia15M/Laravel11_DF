@@ -16,6 +16,7 @@ class Domiciliario extends Model
     protected $fillable = [
         'Id_Domiciliario',
         'Nombre_Domiciliario',
+        'Foto_Domiciliario',
         'Nombre_Recidente',
         'id_Apartamento'
     ];
