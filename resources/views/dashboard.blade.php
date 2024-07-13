@@ -21,7 +21,7 @@
                         será sujeto a sanciones.
                     </p>
                     <button class="mt-6 bg-Azul3 text-white py-2 px-4 rounded-lg hover:bg-Azul-4">
-                        Más recomendaciones
+                        Terminos y Condiciones
                     </button>
                 </div>
                 <div class="w-1/2">
@@ -30,4 +30,21 @@
             </div>
         </div>
     </div>
+
+    <footer class="w-full bg-white py-4 border-t">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-600 hover:text-gray-800">PRODUCTS</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800">BLOG</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800">SHOP</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800">CONTACTS</a>
+            </div>
+            <div class="flex justify-center">
+                <img src="{{ asset('img/LogoC.png') }}" alt="Icon" class="h-6">
+            </div>
+            <div class="text-gray-600">
+                © 2015 Dreamy Inc. All rights reserved
+            </div>
+        </div>
+    </footer>
 </x-app-layout>

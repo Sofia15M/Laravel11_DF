@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\ApartamentoController;
+use App\Http\Controllers\BienvenidaController;
+use App\Http\Controllers\BotManController;
 use App\Http\Controllers\DomiciliarioController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\PropietarioController;

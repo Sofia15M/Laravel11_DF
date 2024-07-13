@@ -1,46 +1,49 @@
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/stylelogin.css') }}">
+@endpush
+
 <x-guest-layout>
-    <x-authentication-card>
 
-        <x-validation-errors class="mb-4" />
+    <section>
+        <div class="container">
+            <div class="user login">
+                <div class="form-box">
+                    <x-validation-errors class="mb-4" />
 
+                    @if (session('status'))
+                        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-                {{ session('status') }}
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+                        <div class="form-control">
+                            <h1>Bienvenidos</h1>
+                            <x-input class="input" id="email" type="email" name="email" placeholder="Ingrese su correo electrónico" :value="old('email')" required autofocus autocomplete="off"/>
+                            <x-input class="input" id="password" type="password" name="password" placeholder="Ingrese su Contraseña" required autocomplete="current-password" />
+                            <label for="remember_me" class="flex-label">
+                                <x-checkbox id="remember_me" name="remember" class="checkbox" />
+                                <span class="span-text">{{ __('Recordar') }}</span>
+                            </label>
+                            @if (Route::has('password.request'))
+                                <a class="notpassword" href="{{ route('password.request') }}">
+                                    {{ __('¿Olvidaste tu contraseña?') }}
+                                </a>
+                            @endif
+
+                            <x-button class="button">
+                                {{ __('Iniciar') }}
+                            </x-button>
+                        </div>
+                    </form>
+                </div>
+                <div class="img-box">
+                    <img src="../img/Logo.jpg" alt="Logo" />
+                </div>
             </div>
-        @endif
+        </div>
+    </section>
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-6">
-            @csrf
 
-            <div>
-                <x-label for="email" value="{{ __('Gmail') }}" class="text-black" />
-                <x-input id="email" class="block mt-1 w-full p-2 border-b border-black bg-transparent text-black focus:outline-none placeholder-black" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Contraseña') }}" class="text-black" />
-                <x-input id="password" class="block mt-1 w-full p-2 border-b border-black bg-transparent text-black focus:outline-none placeholder-black" type="password" name="password" required autocomplete="current-password" />
-            </div>
-
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" class="text-black" />
-                    <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Recordar') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                        {{ __('Olvidaste tu contraseña?') }}
-                    </a>
-                @endif
-
-                <x-button class="ms-4 bg-var(--Azul3) text-black px-4 py-2 rounded hover:bg-var(--Azul4)">
-                    {{ __('Iniciar') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
 </x-guest-layout>

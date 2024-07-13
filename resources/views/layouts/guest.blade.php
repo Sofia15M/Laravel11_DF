@@ -16,6 +16,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/color.css') }}">
+        @stack('styles')
         @livewireStyles
     </head>
     <body>

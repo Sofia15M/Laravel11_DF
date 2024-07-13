@@ -1,20 +1,14 @@
 h1 {
     color: white;
     font-size: 30px;
-}
-
-p {
-    font-size: 15px;
-}
-
-p a {
-    text-decoration: none;
-    color:  var(--Negro);
+    margin-left: 30px;
+    margin-bottom: 10px;
 }
 
 .img-box img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .icon img {
@@ -28,10 +22,10 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.5;
+    transition: 0.5s;
 }
 
-section .container {
+.container {
     position: relative;
     width: 900px;
     height: 500px;
@@ -41,7 +35,7 @@ section .container {
     overflow: hidden;
 }
 
-section .user {
+.user {
     position: absolute;
     top: 0;
     left: 0;
@@ -50,43 +44,32 @@ section .user {
     display: flex;
 }
 
-section .img-box {
+.img-box {
     position: relative;
     width: 50%;
     height: 100%;
     transition: all 500ms ease-in-out;
 }
 
-section .img-box img {
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-section .form-box {
+.form-box {
     position: relative;
     width: 50%;
     height: 100%;
     transition: 500ms ease-in-out;
 }
 
-section .form-box .top {
+.form-box .top {
     position: absolute;
     top: 14px;
     right: 14px;
 }
 
-section .form-box .top p {
-    font-size: 15px;
-}
-
-section .form-box .top span {
+.form-box .top span {
     color: var(--gris3);
     cursor: pointer;
 }
 
-section form {
+form {
     position: absolute;
     top: 55%;
     left: 50%;
@@ -98,72 +81,109 @@ section form {
     justify-content: space-between;
 }
 
-section form .form-control:first-child {
+.form-control:first-child {
     text-align: center;
 }
 
-section form .form-control:first-child input {
+.input {
     border-radius: 5px;
     color: white;
     border: none;
     outline: none;
     background: none;
     width: 260px;
-    margin-top: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding-right: 10px;
     font-size: 17px;
     padding-bottom: 10px;
     border-bottom: 1px solid white;
 }
 
-section .container .login .form-box {
+.input:focus {
+    outline: none;
+}
+
+.container .login .form-box {
     top: 0;
 }
 
-section .container.active .login .form-box {
+.container.active .login .form-box {
     top: 100%;
 }
 
-section .container .login .img-box {
+.container .login .img-box {
     top: 0;
 }
 
-section .container.active .login .img-box {
+.container.active .login .img-box {
     top: -100%;
 }
 
-button{
+.button {
     background: var(--Azul3);
-    border:0;
+    border: 0;
     color: white;
-    padding:10px;
-    font-size:15px;
+    padding: 10px;
+    font-size: 15px;
     width: 200px;
-    margin:20px auto;
-    display:block;
-    cursor:pointer;
-    margin-top: 60px;
+    display: block;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-left: 30px;
     border-radius: 5px;
 }
 
-button:hover{
+.button:hover {
     background-color: var(--Azul4);
 }
 
+.flex-label {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    margin: 1px; /* Elimina cualquier margen predeterminado */
+    color: var(--Azul3);
+}
+
+.span-text {
+    margin: 1px; /* ms-2 */
+    font-size: 15px; /* text-sm */
+    color: white; /* text-gray-600 */
+}
+
+.notpassword {
+    text-decoration: underline;
+    font-size: 0.875rem; /* 14px */
+    color: var(--Azul3); /* Asegúrate de tener la variable --Azul3 definida en tu CSS */
+    border-radius: 0.375rem; /* 6px */
+    outline: none;
+}
+
+.notpassword:hover {
+    color: var(--Azul3); /* Color en hover */
+}
+
+.notpassword:focus {
+    outline: none;
+}
+
 @media (max-width: 996px) {
-    section .container {
+    .container {
         max-width: 400px;
     }
 
-    section .container .img-box {
+    .img-box {
         display: none;
     }
 
-    section .container .form-box {
+    .form-box {
         width: 100%;
     }
 
-    section .container.active .login .form-box {
+    .container.active .login .form-box {
         top: -100%;
     }
 }
