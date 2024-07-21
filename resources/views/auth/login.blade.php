@@ -19,27 +19,28 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-control">
-                            <h1>Bienvenidos</h1>
+                            <h1> <strong>Bienvenidos</strong> </h1>
                             <x-input class="input" id="email" type="email" name="email" placeholder="Ingrese su correo electrónico" :value="old('email')" required autofocus autocomplete="off"/>
                             <x-input class="input" id="password" type="password" name="password" placeholder="Ingrese su Contraseña" required autocomplete="current-password" />
                             <label for="remember_me" class="flex-label">
                                 <x-checkbox id="remember_me" name="remember" class="checkbox" />
                                 <span class="span-text">{{ __('Recordar') }}</span>
                             </label>
+
+                            <x-button class="button">
+                                {{ __('Iniciar') }}
+                            </x-button>
+
                             @if (Route::has('password.request'))
                                 <a class="notpassword" href="{{ route('password.request') }}">
                                     {{ __('¿Olvidaste tu contraseña?') }}
                                 </a>
                             @endif
-
-                            <x-button class="button">
-                                {{ __('Iniciar') }}
-                            </x-button>
                         </div>
                     </form>
                 </div>
                 <div class="img-box">
-                    <img src="../img/Logo.jpg" alt="Logo" />
+                    <img src="../img/Login.png" alt="Logo" />
                 </div>
             </div>
         </div>

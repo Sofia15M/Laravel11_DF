@@ -14,8 +14,35 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Montserrat Alternates', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                Azul3: '#297EA3',
+                Negro: '#252525',
+                gris: '#D7D5D3',
+                Azul1: '#00112D',
+                Azul2: '#011640',
+                Azul3: '#297EA3',
+                Azul4: '#79DCF2',
+                Azul5: '#BFF9FF',
+                azul: '#007bff',
+                azul1: '#0056b3',
+                rojo: '#AE2012',
+                rojo1: '#9B2226',
+                verde: '#558B2F',
+                verde1: '#33691E',
+                naranja: '#CA6702',
+                naranja1: '#BB3E03',
+                Otro: '#c2dffe',
+            },
+        },
+    },
+
+    variants: {
+        extend: {
+            ringColor: ['focus'],
+            borderColor: ['focus'],
+            backgroundColor: ['bg'],
         },
     },
 

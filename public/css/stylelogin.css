@@ -18,7 +18,7 @@ h1 {
 section {
     position: relative;
     min-height: 100vh;
-    background-color: var(--gris);
+    background-color: #f4f4f4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,8 +29,8 @@ section {
     position: relative;
     width: 900px;
     height: 500px;
-    background-color: var(--Azul1);
-    box-shadow: 0 10px 40px var(--Azul1);
+    background-color: var(--Azul3);
+    box-shadow: 0 10px 40px var(--Azul3);
     border-radius: 5px;
     overflow: hidden;
 }
@@ -121,10 +121,11 @@ form {
 }
 
 .button {
-    background: var(--Azul3);
+    background: var(--Azul2);
     border: 0;
     color: white;
     padding: 10px;
+    margin-bottom: 10px;
     font-size: 15px;
     width: 200px;
     display: block;
@@ -135,7 +136,7 @@ form {
 }
 
 .button:hover {
-    background-color: var(--Azul4);
+    background-color: var(--Azul1);
 }
 
 .flex-label {
@@ -145,7 +146,7 @@ form {
 
 .checkbox {
     margin: 1px; /* Elimina cualquier margen predeterminado */
-    color: var(--Azul3);
+    color: var(--Azul2);
 }
 
 .span-text {
@@ -157,13 +158,14 @@ form {
 .notpassword {
     text-decoration: underline;
     font-size: 0.875rem; /* 14px */
-    color: var(--Azul3); /* Asegúrate de tener la variable --Azul3 definida en tu CSS */
+    color: white; /* Asegúrate de tener la variable --Azul3 definida en tu CSS */
     border-radius: 0.375rem; /* 6px */
     outline: none;
+    margin-left: 35px;
 }
 
 .notpassword:hover {
-    color: var(--Azul3); /* Color en hover */
+    color: var(--Azul4); /* Color en hover */
 }
 
 .notpassword:focus {

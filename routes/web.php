@@ -29,6 +29,10 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
+    Route::get('terminos&condiciones', function(){
+        return view('terminos.pdf');
+    });
+
     // Rutas para PDFs
     Route::get('apartamentos/pdf', [ApartamentoController::class, 'pdf'])->name('apartamentos.pdf');
     Route::get('residentes/pdf', [ResidenteController::class, 'pdf'])->name('residentes.pdf');

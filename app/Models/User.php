@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'foto_user'
     ];
 
     /**
@@ -61,5 +62,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Método para obtener la URL de la foto de perfil
+    public function getProfilePhotoUrlAttribute()
+    {
+        return $this->foto_user ? asset('storage/' . $this->foto_user) : $this->defaultProfilePhotoUrl();
     }
 }

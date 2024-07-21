@@ -55,10 +55,6 @@
                         {{ __('Domiciliarios') }}
                     </x-nav-link>
 
-                    <x-nav-link href="{{ route('auth.register') }}" :active="request()->routeIs('auth.register')">
-                        {{ __('Crear') }}
-                    </x-nav-link>
-
                 </div>
             </div>
 
@@ -146,6 +142,10 @@
                                 {{ __('Pefil') }}
                             </x-dropdown-link>
 
+                            <x-dropdown-link href="{{ route('auth.register') }}">
+                                {{ __('Crear usuario') }}
+                            </x-dropdown-link>
+
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
                                     {{ __('API Tokens') }}
@@ -184,7 +184,43 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Bienvenido') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('unidads.index') }}" :active="request()->routeIs('unidads.index')">
+                {{ __('Unidad') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('apartamentos.index') }}" :active="request()->routeIs('apartamentos.index')">
+                {{ __('Apartamentos') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('residentes.index') }}" :active="request()->routeIs('residentes.index')">
+                {{ __('Residentes') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('propietarios.index') }}" :active="request()->routeIs('propietarios.index')">
+                {{ __('Propietarios') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('administradors.index') }}" :active="request()->routeIs('administradors.index')">
+                {{ __('Administradores') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('vigilantes.index') }}" :active="request()->routeIs('vigilantes.index')">
+                {{ __('Vigilantes') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('empleados.index') }}" :active="request()->routeIs('empleados.index')">
+                {{ __('Empleados') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('visitantes.index') }}" :active="request()->routeIs('visitantes.index')">
+                {{ __('Visitantes') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('domiciliarios.index') }}" :active="request()->routeIs('domiciliarios.index')">
+                {{ __('Domiciliarios') }}
             </x-responsive-nav-link>
         </div>
 
@@ -206,7 +242,7 @@
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
+                    {{ __('Perfil') }}
                 </x-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
@@ -221,7 +257,7 @@
 
                     <x-responsive-nav-link href="{{ route('logout') }}"
                                    @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
+                        {{ __('Cerrar Sesión') }}
                     </x-responsive-nav-link>
                 </form>
 

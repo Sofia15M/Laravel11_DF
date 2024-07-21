@@ -17,6 +17,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <!-- Styles -->
+        @stack('styles')
         @livewireStyles
         <script src="{{ asset('js/alertify.min.js') }}"></script>
         <script src="{{ asset('js/dropdown.js')}}"></script>
@@ -42,11 +43,14 @@
             <main>
                 {{ $slot }}
             </main>
+
         </div>
 
         @stack('modals')
 
         @livewireScripts
+
+        @stack('scripts')
 
     </body>
 </html>

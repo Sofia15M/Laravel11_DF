@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Apartamento;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 
 class ApartamentoController extends Controller
 {
@@ -70,27 +71,34 @@ class ApartamentoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
     public function edit(string $id)
     {
-        $apartamento = Apartamento::findOrFail($id);
-        return view('apartamentos.edit', compact('apartamento'));
+        try {
+            $apartamento = Apartamento::findOrFail($id);
+            return view('apartamentos.edit', compact('apartamento'));
+        } catch (Exception $e) {
+            // Manejar la excepción
+            return back()->withError('Error al editar el apartamento: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
+        try {
+            $request->validate([
+                'Descripcion_Apartamento' => 'required|string|max:255',
+                'ID_Propietario' => 'required|integer',
+            ]);
 
-        $request->validate([
-            'Descripcion_Apartamento' => 'required|string|max:255',
-            'ID_Propietario' => 'required|integer',
-        ]);
-        $apartamento = Apartamento::findOrFail($id);
-        // Actualizar los datos del estudiante
-        $apartamento->update($request->all());
-        // Redireccionar a la vista de listado de estudiantes
-        return redirect()->route('apartamentos.index');
+            $apartamento = Apartamento::findOrFail($id);
+            $apartamento->update($request->all());
+
+            return redirect()->route('apartamentos.index');
+        } catch (Exception $e) {
+            // Manejar la excepción
+            return back()->withError('Error al actualizar el apartamento: ' . $e->getMessage())->withInput();
+        }
     }
 
     /**
