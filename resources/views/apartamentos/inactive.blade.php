@@ -19,6 +19,7 @@
                     <table class="table-auto w-full">
                         <thead>
                             <tr>
+                                <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">#</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">N. Apartamento</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Descripción</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Propietario</th>
@@ -28,8 +29,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($apartamentos as $apartamento)
+                            @foreach($apartamentos as $index => $apartamento)
                             <tr>
+                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $index + 1}}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $apartamento->ID_Apartamento }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $apartamento->Descripcion_Apartamento }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $apartamento->ID_Propietario }}</td>

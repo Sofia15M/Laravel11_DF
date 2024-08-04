@@ -9,6 +9,11 @@
                     </h3>
                     <h1 class="font-bold text-5xl text-Azul3 leading-tight mt-2">
                         DigitalFace
+                        @if (auth()->user()->id_rol == 1)
+                            <span class="font-bold text-5xl text-Azul3 leading-tight mt-2">Administrador</span>
+                        @else
+                            <span class="font-bold text-5xl text-Azul3 leading-tight mt-2">Vigilante</span>
+                        @endif
                     </h1>
                     <p class="text-gray-600 mt-4 mb-4">
                         Es obligatorio proteger y usar correctamente la información de todas las
@@ -29,9 +34,9 @@
         </div>
     </div>
 
-    <footer class="w-full bg-white py-4 border-t">
+    <footer class="w-full bg-white py-1 border-t">
         <div class="container mx-auto flex items-center justify-between">
-            <div class="flex space-x-4 m-5">
+            <div class="flex space-x-4 m-3">
                 <a href="#" class="text-gray-600 hover:text-gray-800">Bienvenidos</a>
                 <a href="#" class="text-gray-600 hover:text-gray-800">Unidad</a>
                 <a href="#" class="text-gray-600 hover:text-gray-800">Perfil</a>
@@ -40,8 +45,8 @@
             <div class="flex justify-center">
                 <img src="{{ asset('img/LogoC.png') }}" alt="" class="h-10">
             </div>
-            <div class="text-gray-600">
-                © 2024 DigitalFace - Tu futiro en seguridad
+            <div class="text-gray-600 space-x-4 m-5">
+                © 2024 DigitalFace - Tu futuro en seguridad
             </div>
         </div>
     </footer>

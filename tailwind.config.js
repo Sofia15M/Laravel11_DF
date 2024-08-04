@@ -19,10 +19,12 @@ export default {
             colors: {
                 Azul3: '#297EA3',
                 Negro: '#252525',
+                negro1: '#2f2e41',
                 gris: '#D7D5D3',
                 Azul1: '#00112D',
                 Azul2: '#011640',
                 Azul3: '#297EA3',
+                Azul03: '297ea34',
                 Azul4: '#79DCF2',
                 Azul5: '#BFF9FF',
                 azul: '#007bff',

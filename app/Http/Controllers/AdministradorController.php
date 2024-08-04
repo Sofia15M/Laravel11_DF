@@ -94,6 +94,7 @@ class AdministradorController extends Controller
     {
         $administrador = Administrador::findOrFail($id);
         return view('administradors.edit', compact('administrador'));
+
     }
 
     /**

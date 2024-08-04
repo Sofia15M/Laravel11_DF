@@ -19,6 +19,7 @@
                     <table class="table-auto w-full">
                         <thead>
                             <tr>
+                                <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">#</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">N. Identificación</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Foto</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Nombre Completo</th>
@@ -33,8 +34,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($administradors as $administrador)
+                            @foreach($administradors as $index => $administrador)
                             <tr>
+                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $index + 1 }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $administrador->ID_Administrador }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">
                                     <img src="{{ asset('storage/' . $administrador->Foto_Administrador) }}" alt="Foto Administrador" class="h-30 w-20 mx-auto">

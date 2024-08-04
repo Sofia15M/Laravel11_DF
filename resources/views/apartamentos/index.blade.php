@@ -11,9 +11,11 @@
                 <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
 
                     <div class="mb-4">
-                        <a href="{{ route('apartamentos.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul dark:hover:bg-azul1 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
-                            <svg class="h-5 w-5 text-gray-100"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
-                        </a>
+                        @if (auth()->user()->id_rol == 1)
+                            <a href="{{ route('apartamentos.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul dark:hover:bg-azul1 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
+                                <svg class="h-5 w-5 text-gray-100"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
+                            </a>
+                        @endif
                         <a href="{{ route('apartamentos.inactive') }}" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Desativados">
                             <svg class="h-5 w-5 text-gray-100"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />  <line x1="1" y1="1" x2="23" y2="23" /></svg>
                         </a>
@@ -25,6 +27,7 @@
                     <table class="table-auto w-full">
                         <thead>
                             <tr>
+                                <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">#</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">N. Apartamento</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Descripción</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Propietario</th>
@@ -34,8 +37,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($apartamentos as $apartamento)
+                            @foreach($apartamentos as $index => $apartamento)
                             <tr>
+                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $index + 1 }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $apartamento->ID_Apartamento }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $apartamento->Descripcion_Apartamento }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $apartamento->ID_Propietario }}</td>
