@@ -12,6 +12,7 @@ use App\Http\Controllers\UnidadController;
 use App\Http\Controllers\VigilanteController;
 use App\Http\Controllers\VisitanteController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 // Ruta para la página de inicio de sesión
 Route::get('/', function () {
@@ -24,6 +25,14 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
+    Route::get('registros', function () {
+        return view('auth.register');
+    })->name('auth.register');
+
+    Route::post('register', [RegisteredUserController::class, 'store'])
+    ->name('register');
+
     // Ruta del dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -44,14 +53,14 @@ Route::middleware([
     Route::get('domiciliarios/pdf', [DomiciliarioController::class, 'pdf'])->name('domiciliarios.pdf');
 
     // Ruta desactivados
-    Route::get('/apartamentos/desativados', [ApartamentoController::class, 'inactive'])->name('apartamentos.inactive');
-    Route::get('/residentes/desativados', [ResidenteController::class, 'inactive'])->name('residentes.inactive');
-    Route::get('/propietarios/desativados', [PropietarioController::class, 'inactive'])->name('propietarios.inactive');
-    Route::get('/administradors/desativados', [AdministradorController::class, 'inactive'])->name('administradors.inactive');
-    Route::get('/vigilantes/desativados', [VigilanteController::class, 'inactive'])->name('vigilantes.inactive');
-    Route::get('/empleados/desativados', [EmpleadoController::class, 'inactive'])->name('empleados.inactive');
-    Route::get('/visitantes/desativados', [VisitanteController::class, 'inactive'])->name('visitantes.inactive');
-    Route::get('/domiciliarios/desativados', [DomiciliarioController::class, 'inactive'])->name('domiciliarios.inactive');
+    Route::get('/apartamentos/desactivados', [ApartamentoController::class, 'inactive'])->name('apartamentos.inactive');
+    Route::get('/residentes/desactivados', [ResidenteController::class, 'inactive'])->name('residentes.inactive');
+    Route::get('/propietarios/desactivados', [PropietarioController::class, 'inactive'])->name('propietarios.inactive');
+    Route::get('/administradors/desactivados', [AdministradorController::class, 'inactive'])->name('administradors.inactive');
+    Route::get('/vigilantes/desactivados', [VigilanteController::class, 'inactive'])->name('vigilantes.inactive');
+    Route::get('/empleados/desactivados', [EmpleadoController::class, 'inactive'])->name('empleados.inactive');
+    Route::get('/visitantes/desactivados', [VisitanteController::class, 'inactive'])->name('visitantes.inactive');
+    Route::get('/domiciliarios/desactivados', [DomiciliarioController::class, 'inactive'])->name('domiciliarios.inactive');
 
     // Rutas resource para los controladores
     Route::resource('unidads', UnidadController::class);
@@ -65,7 +74,7 @@ Route::middleware([
     Route::resource('domiciliarios', DomiciliarioController::class);
 
     // Ruta para el registro de usuarios (probablemente sea innecesaria si se gestiona por Jetstream)
-    Route::get('registros', function () {
-        return view('auth.register');
-    })->name('auth.register');
+    //Route::get('registros', function () {
+    //   return view('auth.register');
+    //})->name('auth.register');
 });

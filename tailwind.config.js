@@ -24,7 +24,7 @@ export default {
                 Azul1: '#00112D',
                 Azul2: '#011640',
                 Azul3: '#297EA3',
-                Azul03: '297ea34',
+                Azul03: '#297ea34',
                 Azul4: '#79DCF2',
                 Azul5: '#BFF9FF',
                 azul: '#007bff',

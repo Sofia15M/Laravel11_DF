@@ -14,8 +14,20 @@
 
             <!-- Hamburger icon - Visible on all screens -->
             <div class="-me-2 flex items-center">
+                <button class="inline-flex items-center justify-center p-2 rounded-md text-Azul3 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                    <svg class="h-7 w-7" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z"/>
+                        <path d="M4 8v-2a2 2 0 0 1 2 -2h2"/>
+                        <path d="M4 16v2a2 2 0 0 0 2 2h2"/>
+                        <path d="M16 4h2a2 2 0 0 1 2 2v2"/>
+                        <path d="M16 20h2a2 2 0 0 0 2 -2v-2"/>
+                        <line x1="9" y1="10" x2="9.01" y2="10"/>
+                        <line x1="15" y1="10" x2="15.01" y2="10"/>
+                        <path d="M9.5 15a3.5 3.5 0 0 0 5 0"/>
+                    </svg>
+                </button>
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    <svg class="h-7 w-7" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>

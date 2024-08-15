@@ -1,0 +1,170 @@
+h1 {
+    color: var(--negro1);
+    font-size: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.icon img {
+    width: 20px;
+}
+
+section {
+    position: relative;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.container {
+    position: relative;
+    width: 900px;
+    height: 600px;
+    background-color: white;
+    box-shadow: 0 10px 40px var(--negro1);
+    border-radius: 5px;
+    overflow: hidden;
+    top: 30px;
+}
+
+.user {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.img-box {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    transition: all 500ms ease-in-out;
+}
+
+.form-box {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    transition: 500ms ease-in-out;
+}
+
+.form-box .top {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+}
+
+.form-box .top span {
+    color: var(--negro1);
+    cursor: pointer;
+}
+
+form {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    width: 100%;
+    max-width: 300px;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.form-control:first-child {
+    text-align: center;
+}
+
+.input {
+    border-radius: 5px;
+    color: var(--negro1);
+    border: none;
+    outline: none;
+    background: none;
+    width: 260px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-right: 10px;
+    font-size: 17px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--negro1);
+}
+
+.input:focus {
+    outline: none;
+}
+
+.container .login .form-box {
+    top: 0;
+}
+
+.container.active .login .form-box {
+    top: 100%;
+}
+
+.container .login .img-box {
+    top: 0;
+}
+
+.container.active .login .img-box {
+    top: -100%;
+}
+
+.button {
+    background: var(--Azul3);
+    border: 0;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    width: 200px;
+    display: block;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-left: 30px;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: var(--Azul2);
+}
+
+.flex-label {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 996px) {
+    .container {
+        max-width: 400px;
+    }
+
+    .img-box {
+        display: none;
+    }
+
+    .form-box {
+        width: 100%;
+    }
+
+    .container.active .login .form-box {
+        top: -100%;
+    }
+}
+
+@media (max-width: 567px) {
+    section {
+        padding: 0 30px;
+    }
+}

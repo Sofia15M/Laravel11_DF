@@ -4,12 +4,15 @@
             {{ __('Informacion Unidad') }}
         </h2>
     </x-slot>
-    
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6 lg:p-8">
                 <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-
+                    <p>N. identificador de la unidad:</p>
+                    <P>Nombre de la unidad:</P>
+                    <p>Telefono:</p>
+                    <p>Direccion</p>
                 </div>
             </div>
         </div>

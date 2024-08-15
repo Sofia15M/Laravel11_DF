@@ -50,9 +50,7 @@
                                 <p class="text-lg font-semibold">Tomar foto</p>
                                 <p class="text-gray-600">Selecciona un dispositivo</p>
                                 <div class="flex flex-col items-center gap-4 mt-4">
-                                    <select name="listaDeDispositivos" id="listaDeDispositivos" class="p-2 border border-gray-300 rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3 w-full">
-                                        <!-- Opciones se agregan dinámicamente -->
-                                    </select>
+                                    <select name="listaDeDispositivos" id="listaDeDispositivos" class="p-2 border border-gray-300 rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3 w-full"></select>
                                     <button class="flex items-center justify-center text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:ring-Azul3 font-medium rounded-lg text-sm px-3 py-2.5" id="boton" type="button">
                                         <svg class="h-6 w-6" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z"/>
@@ -65,8 +63,8 @@
                                             <path d="M9.5 15a3.5 3.5 0 0 0 5 0"/>
                                         </svg>
                                     </button>
+                                    <p id="estado" class="mt-2 text-gray-500"></p>
                                 </div>
-                                <p id="estado" class="mt-2 text-gray-500"></p>
                             </div>
                             <video muted="muted" id="video" class="w-full rounded-lg shadow-sm"></video>
                             <canvas id="canvas" class="hidden"></canvas>
