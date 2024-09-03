@@ -6,6 +6,7 @@ use App\Http\Controllers\BienvenidaController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\DomiciliarioController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\PropietarioController;
 use App\Http\Controllers\ResidenteController;
 use App\Http\Controllers\UnidadController;
@@ -73,6 +74,9 @@ Route::middleware([
     Route::resource('visitantes', VisitanteController::class);
     Route::resource('domiciliarios', DomiciliarioController::class);
 
+    // Ruta personas reconocidas
+    Route::get('/personas', [PersonaController::class, 'index'])->name('personas.index');
+    
     // Ruta para el registro de usuarios (probablemente sea innecesaria si se gestiona por Jetstream)
     //Route::get('registros', function () {
     //   return view('auth.register');

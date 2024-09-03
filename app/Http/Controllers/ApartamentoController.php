@@ -56,8 +56,8 @@ class ApartamentoController extends Controller
             'ID_UNIDAD' => $request->input('ID_UNIDAD'),
             'ID_Propietario' => $request->input('ID_Propietario')
         ]);
-
-        return redirect()->route('apartamentos.index');
+        $mensaje = 'Mensaje mensajoso';
+        return redirect()->route('apartamentos.index', ['mensaje' => $mensaje]);
     }
 
     /**
@@ -94,7 +94,7 @@ class ApartamentoController extends Controller
             $apartamento = Apartamento::findOrFail($id);
             $apartamento->update($request->all());
 
-            return redirect()->route('apartamentos.index');
+            return back()->with('hecho', 'Apartamento agregado correctamente');
         } catch (Exception $e) {
             // Manejar la excepción
             return back()->withError('Error al actualizar el apartamento: ' . $e->getMessage())->withInput();

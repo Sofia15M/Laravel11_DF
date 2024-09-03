@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-box">
                     <x-validation-errors class="mb-4" />
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-control">
                             <h1> <strong>Registrar:</strong> </h1>
@@ -49,10 +49,6 @@
                             @endif
 
                             <div class="flex items-center justify-end mt-4">
-                                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                                    {{ __('Already registered?') }}
-                                </a>
-
                                 <x-button class="ms-4">
                                     {{ __('Register') }}
                                 </x-button>

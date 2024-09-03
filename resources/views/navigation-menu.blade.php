@@ -14,7 +14,18 @@
 
             <!-- Hamburger icon - Visible on all screens -->
             <div class="-me-2 flex items-center">
-                <button class="inline-flex items-center justify-center p-2 rounded-md text-Azul3 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                <button
+                    class="inline-flex items-center justify-center p-2 rounded-md text-Azul3 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
+                    onclick="window.location.href='{{ route('personas.index') }}'">
+                    <svg class="h-7 w-7" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z"/>
+                        <circle cx="7" cy="5" r="2" />
+                        <path d="M5 22v-5l-1-1v-4a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4l-1 1v5" />
+                        <circle cx="17" cy="5" r="2" />
+                        <path d="M15 22v-4h-2l2 -6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1l2 6h-2v4" />
+                    </svg>
+                </button>
+                <button id="openApiButton" class="inline-flex items-center justify-center p-2 rounded-md text-Azul3 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                     <svg class="h-7 w-7" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z"/>
                         <path d="M4 8v-2a2 2 0 0 1 2 -2h2"/>
@@ -40,13 +51,23 @@
     <div x-show="open" @click.away="open = false" class="block sm:block">
         <div class="pt-4 pb-4 m-1 border-t border-b border-gray-200 dark:border-gray-600">
             <div class="flex items-center px-4">
-                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <div class="shrink-0 me-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                    </div>
-                @endif
-
+                <div class="shrink-0 me-3">
+                    @if (Auth::user()->foto_user)
+                        <img class="h-20 w-20 rounded-full object-cover" src="{{ asset('storage/' . Auth::user()->foto_user) }}" alt="{{ Auth::user()->name }}" />
+                    @else
+                        <img class="h-20 w-20 rounded-full object-cover" src="{{ asset('storage/default-avatar.png') }}" alt="Default Avatar" />
+                    @endif
+                </div>
                 <div>
+                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">
+                        @if (Auth::user()->id_rol == 1)
+                            Administrador:
+                        @elseif (Auth::user()->id_rol == 2)
+                            Vigilante:
+                        @else
+                            Rol desconocido
+                        @endif
+                    </div>
                     <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
@@ -173,3 +194,13 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.getElementById('openApiButton').addEventListener('click', function() {
+    // Cambia la URL por la de tu API
+    const apiUrl = '10.171.146.125:5000'; // Reemplaza con la URL de tu API
+
+    // Abre la URL en una nueva pestaña
+    window.open(apiUrl, '_blank');
+});
+</script>

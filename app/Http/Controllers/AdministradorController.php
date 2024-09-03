@@ -29,6 +29,15 @@ class AdministradorController extends Controller
         return $pdf->stream();
     }
 
+    public function checkId(Request $request) {
+        $idAdministrador = $request->input('ID_Administrador');
+
+        // Comprueba si el ID ya existe en la base de datos
+        $exists = \App\Models\Administrador::where('ID_Administrador', $idAdministrador)->exists();
+
+        return response()->json(['exists' => $exists]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -75,8 +84,7 @@ class AdministradorController extends Controller
         ]);
 
         $administrador->save();
-
-        return redirect()->route('administradors.index');
+        return redirect()->back()->with('mensaje_create','');
     }
 
     /**

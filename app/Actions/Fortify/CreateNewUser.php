@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Http\UploadedFile;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -15,7 +16,7 @@ class CreateNewUser implements CreatesNewUsers
     /**
      * Validate and create a newly registered user.
      *
-     * @param  array<string, string>  $input
+     * @param  array<string, string|UploadedFile>  $input
      */
     public function create(array $input): User
     {
@@ -24,17 +25,22 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
-            'foto_user' => ['required', 'string'], // La ruta de la imagen ahora es una cadena
+            'foto_user' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'id_rol' => ['required', 'integer'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
+
+        // Manejar la carga de la imagen
+        /** @var \Illuminate\Http\UploadedFile $foto_user */
+        $foto_user = $input['foto_user'];
+        $foto_user_path = $foto_user->store('profile_pictures', 'public');
 
         // Crear el nuevo usuario y devolverlo
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'foto_user' => $input['foto_user'], // Guarda la ruta de la imagen
+            'foto_user' => $foto_user_path, // Guarda la ruta de la imagen
             'id_rol' => $input['id_rol'], // Guarda el id del rol
         ]);
     }
