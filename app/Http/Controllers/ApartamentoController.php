@@ -56,8 +56,11 @@ class ApartamentoController extends Controller
             'ID_UNIDAD' => $request->input('ID_UNIDAD'),
             'ID_Propietario' => $request->input('ID_Propietario')
         ]);
-        $mensaje = 'Mensaje mensajoso';
-        return redirect()->route('apartamentos.index', ['mensaje' => $mensaje]);
+
+        return redirect()->route('apartamentos.index')
+        ->with('mensaje', 'Apartamento creado con exito')
+        ->with('icon', 'success');
+
     }
 
     /**
@@ -94,10 +97,14 @@ class ApartamentoController extends Controller
             $apartamento = Apartamento::findOrFail($id);
             $apartamento->update($request->all());
 
-            return back()->with('hecho', 'Apartamento agregado correctamente');
+            return redirect()->route('apartamentos.index')
+        ->with('mensaje', 'Apartamento actualizado con exito')
+        ->with('icon', 'success');
         } catch (Exception $e) {
             // Manejar la excepción
-            return back()->withError('Error al actualizar el apartamento: ' . $e->getMessage())->withInput();
+            return redirect()->route('apartamentos.index')
+            ->with('mensaje', 'Apartamento no acascascasc con exito')
+            ->with('icon', 'error');
         }
     }
 
@@ -106,6 +113,20 @@ class ApartamentoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+
     }
+    public function desactivar(string $id)
+    {
+        $apartamento = Apartamento::findOrFail($id);
+        $apartamento->status = 'inactivo';
+
+        $apartamento->save();
+        return redirect()->route('apartamentos.index')
+        ->with('mensaje', 'Aparraento elimando con exiur')
+        ->with('icon', 'error');
+
+    }
+
+
 }

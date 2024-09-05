@@ -14,6 +14,8 @@
         <!--Favicon-->
         <link rel="shortcut icon" href="{{ asset('img/LogoC.png')}}" type="image/x-icon">
 
+        <!--SweetAlert2-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <!-- Styles -->
@@ -40,6 +42,17 @@
             <!-- Page Content -->
             <main>
                 {{ $slot }}
+                @if(($mensaje=Session::get('mensaje')) && ($icon = Session::get('icon')))
+                <script>
+                Swal.fire({
+                    position: "center",
+                    icon: "{{$icon}}",
+                    title: "{{$mensaje}}",
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+                </script>
+                @endif
             </main>
 
         </div>
