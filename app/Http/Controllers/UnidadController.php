@@ -45,7 +45,8 @@ class UnidadController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $unidad = Unidad::findOrFail($id);
+        return view('unidads.edit', compact('unidad'));
     }
 
     /**
@@ -53,7 +54,19 @@ class UnidadController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'Nombre_Unidad' => 'required|string|max:255',
+            'Tel_Unidad' => 'required|string|max:255',
+            'Direccion_Unidad' => 'required|string|max:255',
+            'Cantida_Apartamentos_Unidad' => 'required|integer',
+        ]);
+
+        $unidad = Unidad::findOrFail($id);
+        $unidad->update($request->all());
+        return redirect()->route('unidads.index')
+            ->with('mensaje', 'Informacion de la unidad actualizada con éxito')
+            ->with('icon', 'success');
+
     }
 
     /**
