@@ -26,7 +26,7 @@
                     </a>
                 </div>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight text-center mb-5">
-                    {{ __('Editar Unidad') }}
+                    {{ __('Editar info. Unidad') }}
                 </h2>
 
                 <form method="POST" action="{{ route('unidads.update', $unidad->ID_UNIDAD) }}" class="max-w-sm mx-auto">
@@ -53,7 +53,7 @@
                         <input type="number" name="Cantida_Apartamentos_Unidad" id="Cantida_Apartamentos_Unidad" value="{{ old('Cantida_Apartamentos_Unidad', $unidad->Cantida_Apartamentos_Unidad) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
                     </div>
 
-                    <button type="submit" class="text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:ring-Azul3 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-Azul3 dark:hover:bg-Azul2 dark:focus:ring-Azul3">Guardar</button>
+                    <button type="submit" class="text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:ring-Azul3 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-Azul3 dark:hover:bg-Azul2 dark:focus:ring-Azul3">Actualizar</button>
                     <a href="{{ route('unidads.index') }}" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Cancelar</a>
                 </form>
 
