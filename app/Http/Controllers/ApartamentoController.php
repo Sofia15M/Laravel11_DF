@@ -9,38 +9,36 @@ use Exception;
 
 class ApartamentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    //Muestra el listado de los apartamentos activos.
     public function index()
     {
-        $apartamentos = Apartamento::where('status', 'active')->get();
+        $apartamentos = Apartamento::where('status', 'active')->paginate(10);
         return view('apartamentos.index', compact('apartamentos'));
     }
 
+    //Muestra el listado de los apartamentos inactivos.
     public function inactive()
     {
-        $apartamentos = Apartamento::where('status', 'inactive')->get();
+        $apartamentos = Apartamento::where('status', 'inactive')->paginate(10);
         return view('apartamentos.inactive', compact('apartamentos'));
     }
 
-    public function pdf(){
-        $apartamentos=Apartamento::all();
+    // Genera los PDF de todos los apartmentos, ademas lo redirige.
+    public function pdf()
+    {
+        $apartamentos = Apartamento::all();
         $pdf = Pdf::loadView('apartamentos.pdf', compact('apartamentos'));
         return $pdf->stream();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    //Funcion re-dirige a la vista Crear
     public function create()
     {
         return view('apartamentos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    //Funcion guarda la infomacion cuando se crea un nuevo aparatemento
     public function store(Request $request)
     {
         $request->validate([
@@ -50,83 +48,73 @@ class ApartamentoController extends Controller
             'ID_Propietario' => 'required|integer',
         ]);
 
-        Apartamento::create([
-            'ID_Apartamento' => $request->input('ID_Apartamento'),
-            'Descripcion_Apartamento' => $request->input('Descripcion_Apartamento'),
-            'ID_UNIDAD' => $request->input('ID_UNIDAD'),
-            'ID_Propietario' => $request->input('ID_Propietario')
-        ]);
+        Apartamento::create($request->only([
+            'ID_Apartamento',
+            'Descripcion_Apartamento',
+            'ID_UNIDAD',
+            'ID_Propietario'
+        ]));
 
         return redirect()->route('apartamentos.index')
-        ->with('mensaje', 'Apartamento creado con exito')
-        ->with('icon', 'success');
-
+            ->with('mensaje', 'Apartamento creado con éxito')
+            ->with('icon', 'success');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-
+    //Funcion re-dirige a la vista actualizar
     public function edit(string $id)
     {
-        try {
-            $apartamento = Apartamento::findOrFail($id);
-            return view('apartamentos.edit', compact('apartamento'));
-        } catch (Exception $e) {
-            // Manejar la excepción
-            return back()->withError('Error al editar el apartamento: ' . $e->getMessage());
-        }
+        $apartamento = Apartamento::findOrFail($id);
+        return view('apartamentos.edit', compact('apartamento'));
     }
 
+    //Funcion de actualizar
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'Descripcion_Apartamento' => 'required|string|max:255',
+            'ID_Propietario' => 'required|integer',
+        ]);
+
+        $apartamento = Apartamento::findOrFail($id);
+        $apartamento->update($request->only([
+            'Descripcion_Apartamento',
+            'ID_Propietario'
+        ]));
+
+        return redirect()->route('apartamentos.index')
+            ->with('mensaje', 'Apartamento actualizado con éxito')
+            ->with('icon', 'success');
+    }
+
+    //Funcion de Desativar
+    public function updateStatus($id)
+    {
         try {
-            $request->validate([
-                'Descripcion_Apartamento' => 'required|string|max:255',
-                'ID_Propietario' => 'required|integer',
-            ]);
-
             $apartamento = Apartamento::findOrFail($id);
-            $apartamento->update($request->all());
+            $apartamento->status = 'inactive';
+            $apartamento->save();
 
-            return redirect()->route('apartamentos.index')
-        ->with('mensaje', 'Apartamento actualizado con exito')
-        ->with('icon', 'success');
-        } catch (Exception $e) {
-            // Manejar la excepción
-            return redirect()->route('apartamentos.index')
-            ->with('mensaje', 'Apartamento no acascascasc con exito')
-            ->with('icon', 'error');
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+    //Funcion de Activar
+    public function activateStatus($id)
     {
+        try {
+            $apartamento = Apartamento::findOrFail($id);
+            $apartamento->status = 'active'; // Cambia el status según tu lógica
+            $apartamento->save();
 
-
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
-    public function desactivar(string $id)
-    {
-        $apartamento = Apartamento::findOrFail($id);
-        $apartamento->status = 'inactivo';
-
-        $apartamento->save();
-        return redirect()->route('apartamentos.index')
-        ->with('mensaje', 'Aparraento elimando con exiur')
-        ->with('icon', 'error');
-
-    }
-
 
 }

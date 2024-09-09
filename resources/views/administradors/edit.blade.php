@@ -5,6 +5,17 @@
         </h2>
     </x-slot>
 
+    @if(request()->has('mensaje'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                var mensaje = "{{ request('mensaje') }}"; // Esto imprime el valor real del mensaje
+                if (mensaje){
+                    alert(mensaje); // Esto muestra el mensaje real en la alerta
+                }
+            });
+        </script>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6 lg:p-8">
