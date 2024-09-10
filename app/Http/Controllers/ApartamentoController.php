@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Apartamento;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Propietario;
 use Exception;
 
 class ApartamentoController extends Controller
@@ -35,7 +36,11 @@ class ApartamentoController extends Controller
     //Funcion re-dirige a la vista Crear
     public function create()
     {
-        return view('apartamentos.create');
+        $apartamentosIds = Apartamento::pluck('ID_Apartamento')->toArray(); // Obtener los IDs de apartamentos
+        $propietarios = Propietario::all(); // Obtener la lista de propietarios
+
+        // Pasar ambas variables a la vista
+        return view('apartamentos.create', compact('apartamentosIds', 'propietarios'));
     }
 
     //Funcion guarda la infomacion cuando se crea un nuevo aparatemento
@@ -59,6 +64,7 @@ class ApartamentoController extends Controller
             ->with('mensaje', 'Apartamento creado con éxito')
             ->with('icon', 'success');
     }
+
 
     //Funcion re-dirige a la vista actualizar
     public function edit(string $id)
