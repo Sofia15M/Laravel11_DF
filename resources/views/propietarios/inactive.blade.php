@@ -54,9 +54,12 @@
                                 @if (auth()->user()->id_rol == 1)
                                     <td class="border px-4 py-2 text-center">
                                         <div class="flex justify-center">
-                                            <a href="#" class="bg-verde dark:bg-verde1 hover:bg-verde dark:hover:bg-verde1 text-white font-bold py-2 px-4 rounded mr-2" title="Activar">
-                                                <svg class="h-5 w-5 text-gray-100"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />  <circle cx="12" cy="12" r="3" /></svg>
-                                            </a>
+                                            <button type="button" onclick="confirmActivo('{{ $propietario->ID_Propietario }}')" class="bg-verde dark:bg-verde1 hover:bg-verde1 dark:hover:bg-verde text-white font-bold py-2 px-4 rounded mr-2" title="Activar">
+                                                <svg class="h-5 w-5 text-gray-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                    <circle cx="12" cy="12" r="3" />
+                                                </svg>
+                                            </button>
                                         </div>
                                     </td>
                                 @endif
@@ -110,4 +113,58 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmActivo(id) {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "¡Esto desativara el propietario!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#297EA3",
+                cancelButtonColor: "#4A5568",
+                confirmButtonText: "Sí, desativar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`{{ route('propietario.inactive', ':id') }}`.replace(':id', id), {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ _method: 'POST' })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(text); // Obtén el mensaje de error del servidor
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Respuesta del servidor:', data);
+                        Swal.fire({
+                            title: "¡Desativado!",
+                            text: "El propietario ha sido desativado.",
+                            icon: "success"
+                        }).then(() => {
+                            console.log('Recargando la página...');
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Log del error completo
+                        Swal.fire({
+                            title: "Error",
+                            text: `Hubo un problema al desativar el propietario: ${error.message}`,
+                            icon: "error"
+                        });
+                    });
+                }
+            });
+        }
+    </script>
+
 </x-app-layout>

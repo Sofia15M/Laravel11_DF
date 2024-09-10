@@ -34,6 +34,7 @@
                     <div class="mb-5">
                         <label for="ID_Propietario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">N. Identificación:</label>
                         <input type="number" name="ID_Propietario" id="ID_Propietario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
+                        <span id="error-id-propietario" class="text-red-600 mt-2 text-sm"></span>
                     </div>
 
                     <div class="mb-5">
@@ -59,4 +60,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Validación en JavaScript para detectar IDs duplicados -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Array con los IDs de apartamentos existentes
+            var propietariosIds = @json($propietariosIds);
+
+            // Imprimir los IDs en la consola para verificar
+            console.log("IDs de propietarios existentes:", propietariosIds);
+
+            // Validar si el ID de apartamento ya existe
+            document.getElementById('ID_Propietario').addEventListener('input', function() {
+                var idPropietario = this.value.trim();
+
+                // Convertir a string para garantizar que la comparación sea correcta
+                if (propietariosIds.map(String).includes(idPropietario)) {
+                    document.getElementById('error-id-propietario').textContent = 'Este propietario ya existe.';
+                } else {
+                    document.getElementById('error-id-propietario').textContent = '';
+                }
+            });
+        });
+    </script>
 </x-app-layout>

@@ -33,7 +33,8 @@ class PropietarioController extends Controller
      */
     public function create()
     {
-        return view('propietarios.create');
+        $propietariosIds = Propietario::pluck('ID_Propietario')->toArray(); // Obtener los IDs de apartamentos
+        return view('propietarios.create', compact('propietariosIds'));
     }
 
     /**
@@ -127,7 +128,7 @@ class PropietarioController extends Controller
     {
         try {
             $propietario = Propietario::findOrFail($id);
-            $propietario->status = 'active'; // Cambia el status según tu lógica
+            $propietario->status = 'active';
             $propietario->save();
 
             return response()->json(['success' => true]);
