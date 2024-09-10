@@ -106,7 +106,7 @@ class ResidenteController extends Controller
 
         // Redireccionar a la vista de listado de estudiantes
         return redirect()->route('residentes.index')
-        ->with('mensaje', 'residente creado con éxito')
+        ->with('mensaje', 'residente actualizado con éxito')
         ->with('icon', 'success');
 
     }
