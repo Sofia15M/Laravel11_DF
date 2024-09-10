@@ -34,7 +34,8 @@ class ResidenteController extends Controller
      */
     public function create()
     {
-        return view('residentes.create');
+        $residentesIds = Residente::pluck('ID_Residente')->toArray(); // Obtener los IDs de apartamentos
+        return view('residentes.create', compact('residentesIds'));
     }
 
     /**
@@ -65,7 +66,9 @@ class ResidenteController extends Controller
 
         $residente->save();
 
-        return redirect()->route('residentes.index');
+        return redirect()->route('residentes.index')
+            ->with('mensaje', 'residente creado con éxito')
+            ->with('icon', 'success');
     }
 
     /**
@@ -102,7 +105,9 @@ class ResidenteController extends Controller
         $residente->update($request->all());
 
         // Redireccionar a la vista de listado de estudiantes
-        return redirect()->route('residentes.index');
+        return redirect()->route('residentes.index')
+        ->with('mensaje', 'residente creado con éxito')
+        ->with('icon', 'success');
 
     }
 
@@ -115,4 +120,33 @@ class ResidenteController extends Controller
         $residente->delete();
         return redirect()->route('residentes.index');
     }
+
+    public function updateStatus($id)
+    {
+        try {
+            $residente =  Residente::findOrFail($id);
+            $residente->status = 'inactive';
+            $residente->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function activateStatus($id)
+    {
+        try {
+            $residente = Residente::findOrFail($id);
+            $residente->status = 'active';
+            $residente->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
 }

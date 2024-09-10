@@ -29,21 +29,13 @@ class AdministradorController extends Controller
         return $pdf->stream();
     }
 
-    public function checkId(Request $request) {
-        $idAdministrador = $request->input('ID_Administrador');
-
-        // Comprueba si el ID ya existe en la base de datos
-        $exists = \App\Models\Administrador::where('ID_Administrador', $idAdministrador)->exists();
-
-        return response()->json(['exists' => $exists]);
-    }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('administradors.create');
+        $administradorsIds = Administrador::pluck('ID_Administrador')->toArray(); // Obtener los IDs de apartamentos
+        return view('administradors.create', compact('administradorsIds'));
     }
 
     /**

@@ -118,12 +118,12 @@
         function confirmActivo(id) {
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "¡Esto desativara el propietario!",
+                text: "¡Esto activara el propietario!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#297EA3",
                 cancelButtonColor: "#4A5568",
-                confirmButtonText: "Sí, desativar",
+                confirmButtonText: "Sí, activar",
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -147,7 +147,7 @@
                         console.log('Respuesta del servidor:', data);
                         Swal.fire({
                             title: "¡Desativado!",
-                            text: "El propietario ha sido desativado.",
+                            text: "El propietario ha sido activado.",
                             icon: "success"
                         }).then(() => {
                             console.log('Recargando la página...');
@@ -158,7 +158,7 @@
                         console.error('Error:', error); // Log del error completo
                         Swal.fire({
                             title: "Error",
-                            text: `Hubo un problema al desativar el propietario: ${error.message}`,
+                            text: `Hubo un problema al activar el propietario: ${error.message}`,
                             icon: "error"
                         });
                     });
