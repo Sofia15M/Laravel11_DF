@@ -107,4 +107,35 @@ class PropietarioController extends Controller
             ->with('icon', 'success');
     }
 
+    public function updateStatus($id)
+    {
+        try {
+            $propietario =  Propietario::findOrFail($id);
+            $propietario->status = 'inactive';
+            $propietario->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
+    //Funcion de Activar
+    public function activateStatus($id)
+    {
+        try {
+            $propietario = Propietario::findOrFail($id);
+            $propietario->status = 'active'; // Cambia el status según tu lógica
+            $propietario->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
 }

@@ -79,8 +79,10 @@ Route::middleware([
 
     //desativar
     Route::post('/apartamento/update-status/{id}', [ApartamentoController::class, 'updateStatus'])->name('apartamento.index');
+    Route::post('/propietario/update-status/{id}', [PropietarioController::class, 'updateStatus'])->name('propietario.index');
     //activar
     Route::post('/apartamento/activate/{id}', [ApartamentoController::class, 'activateStatus'])->name('apartamento.inactive');
+    Route::post('/propietario/activate/{id}', [PropietarioController::class, 'activateStatus'])->name('propietario.inactive');
 
 
     // Ruta para el registro de usuarios (probablemente sea innecesaria si se gestiona por Jetstream)
