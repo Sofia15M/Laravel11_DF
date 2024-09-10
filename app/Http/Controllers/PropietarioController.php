@@ -53,16 +53,20 @@ class PropietarioController extends Controller
             $path = $image->store('fotos_propietarios', 'public');
         }
 
+        // Crear el propietario pero aún no está guardado
         $propietario = new Propietario([
-            'ID_Propietario' => $request->get('ID_Propietario', uniqid()), // Proporciona un valor único
+            'ID_Propietario' => $request->get('ID_Propietario', uniqid()),
             'Nombre_Propietario' => $request->get('Nombre_Propietario'),
             'Tel_Cel_Propietario' => $request->get('Tel_Cel_Propietario'),
             'Foto_Propietario' => $path ?? null,
         ]);
 
+        // Aquí se guarda el propietario en la base de datos
         $propietario->save();
 
-        return redirect()->route('propietarios.index');
+        return redirect()->route('propietarios.index')
+            ->with('mensaje', 'Propietario creado con éxito')
+            ->with('icon', 'success');
     }
 
     /**
@@ -98,14 +102,9 @@ class PropietarioController extends Controller
         $propietario->update($request->all());
 
         // Redireccionar a la vista de listado de estudiantes
-        return redirect()->route('propietarios.index');
+        return redirect()->route('propietarios.index')
+            ->with('mensaje', 'Propietario actualizado con éxito')
+            ->with('icon', 'success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

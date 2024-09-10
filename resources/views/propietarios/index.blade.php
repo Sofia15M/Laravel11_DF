@@ -5,6 +5,17 @@
         </h2>
     </x-slot>
 
+    @if(request()->has('mensaje'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                var mensaje = "{!! request('mensaje') !!}"
+                if (mensaje){
+                    alert(mensaje);
+                }
+            });
+        </script>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6 lg:p-8">
@@ -12,8 +23,12 @@
 
                     <div class="mb-4">
                         @if (auth()->user()->id_rol == 1)
-                            <a href="{{ route('propietarios.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded float-left mr-2 mb-2" title="Editar">
-                                <svg class="h-5 w-5 text-white" <svg  width="24"  height="24"  viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                            <a href="{{ route('propietarios.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul dark:hover:bg-azul1 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
+                                <svg class="h-5 w-5 text-gray-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                    <line x1="12" y1="8" x2="12" y2="16" />
+                                    <line x1="8" y1="12" x2="16" y2="12" />
+                                </svg>
                             </a>
                         @endif
                         <a href="{{ route('propietarios.inactive') }}" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded float-left mr-2 mb-2" title="Desativados">
@@ -27,6 +42,7 @@
                     <table class="table-auto w-full">
                         <thead>
                             <tr>
+                                <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">#</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">N. Identificación</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Foto</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Nombre Completo</th>
@@ -38,8 +54,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($propietarios as $propietario)
+                            @foreach($propietarios as $index => $propietario)
                             <tr>
+                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $index + 1 }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $propietario->ID_Propietario }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">
                                     <img src="{{ asset('storage/' . $propietario->Foto_Propietario) }}" alt="Foto Propietario" class="h-30 w-20 mx-auto">
