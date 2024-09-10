@@ -40,7 +40,7 @@
                     </form>
                 </div>
                 <div class="img-box">
-                    <img src="../img/Login.png" alt="Logo" />
+                    <img src="../img/loginnew.png" alt="Logo" />
                 </div>
             </div>
         </div>

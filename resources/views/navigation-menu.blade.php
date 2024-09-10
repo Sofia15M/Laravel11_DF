@@ -55,7 +55,7 @@
                     @if (Auth::user()->foto_user)
                         <img class="h-20 w-20 rounded-full object-cover" src="{{ asset('storage/' . Auth::user()->foto_user) }}" alt="{{ Auth::user()->name }}" />
                     @else
-                        <img class="h-20 w-20 rounded-full object-cover" src="{{ asset('storage/default-avatar.png') }}" alt="Default Avatar" />
+                        <img class="h-20 w-20 rounded-full object-cover" src="{{ asset('img/LogoC.png') }}" alt="Default Avatar" />
                     @endif
                 </div>
                 <div>
