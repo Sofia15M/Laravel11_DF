@@ -13,13 +13,13 @@ class AdministradorController extends Controller
      */
     public function index()
     {
-        $administradors = Administrador::where('Estado', 'activo')->get();
+        $administradors = Administrador::where('Estado', 'activo')->paginate(10);
         return view('administradors.index', compact('administradors'));
     }
 
     public function inactive()
     {
-        $administradors = Administrador::where('Estado', 'inactivo')->get();
+        $administradors = Administrador::where('Estado', 'inactivo')->paginate(10);
         return view('administradors.inactive', compact('administradors'));
     }
 

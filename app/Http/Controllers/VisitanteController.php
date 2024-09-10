@@ -13,13 +13,13 @@ class VisitanteController extends Controller
      */
     public function index()
     {
-        $visitantes = Visitante::where('status', 'active')->get();
+        $visitantes = Visitante::where('status', 'active')->paginate(10);
         return view('visitantes.index', compact('visitantes'));
     }
 
     public function inactive()
     {
-        $visitantes = Visitante::where('status', 'inactive')->get();
+        $visitantes = Visitante::where('status', 'inactive')->paginate(10);
         return view('visitantes.inactive', compact('visitantes'));
     }
 

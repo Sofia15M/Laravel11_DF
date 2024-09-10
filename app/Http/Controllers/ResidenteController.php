@@ -13,13 +13,13 @@ class ResidenteController extends Controller
      */
     public function index()
     {
-        $residentes = Residente::where('status', 'active')->get();
+        $residentes = Residente::where('status', 'active')->paginate(10);
         return view('residentes.index', compact('residentes'));
     }
 
     public function inactive()
     {
-        $residentes = Residente::where('status', 'inactive')->get();
+        $residentes = Residente::where('status', 'inactive')->paginate(10);
         return view('residentes.inactive', compact('residentes'));
     }
 

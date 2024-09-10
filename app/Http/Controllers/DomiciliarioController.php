@@ -13,13 +13,13 @@ class DomiciliarioController extends Controller
      */
     public function index()
     {
-        $domiciliarios = Domiciliario::where('estado', 'activo')->get();
+        $domiciliarios = Domiciliario::where('estado', 'activo')->paginate(10);
         return view('domiciliarios.index', compact('domiciliarios'));
     }
 
     public function inactive()
     {
-        $domiciliarios = Domiciliario::where('estado', 'inactivo')->get();
+        $domiciliarios = Domiciliario::where('estado', 'inactivo')->paginate(10);
         return view('domiciliarios.inactive', compact('domiciliarios'));
     }
 

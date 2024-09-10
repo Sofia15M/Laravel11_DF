@@ -13,13 +13,13 @@ class PropietarioController extends Controller
      */
     public function index()
     {
-        $propietarios = Propietario::where('status', 'active')->get();
+        $propietarios = Propietario::where('status', 'active')->paginate(10);
         return view('propietarios.index', compact('propietarios'));
     }
 
     public function inactive()
     {
-        $propietarios = Propietario::where('status', 'inactive')->get();
+        $propietarios = Propietario::where('status', 'inactive')->paginate(10);
         return view('propietarios.inactive', compact('propietarios'));
     }
 

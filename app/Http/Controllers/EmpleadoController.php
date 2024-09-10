@@ -13,13 +13,13 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $empleados = Empleado::where('status', 'active')->get();
+        $empleados = Empleado::where('status', 'active')->paginate(10);
         return view('empleados.index', compact('empleados'));
     }
 
     public function inactive()
     {
-        $empleados = Empleado::where('status', 'inactive')->get();
+        $empleados = Empleado::where('status', 'inactive')->paginate(10);
         return view('empleados.inactive', compact('empleados'));
     }
 
