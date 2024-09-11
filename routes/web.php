@@ -85,6 +85,7 @@ Route::middleware([
     Route::post('/vigilante/update-status/{id}', [VigilanteController::class, 'updateStatus'])->name('vigilante.index');
     Route::post('/empleado/update-status/{id}', [EmpleadoController::class, 'updateStatus'])->name('empleado.index');
     Route::post('/visitante/update-status/{id}', [VisitanteController::class, 'updateStatus'])->name('visitante.index');
+    Route::post('/domiciliario/update-status/{id}', [DomiciliarioController::class, 'updateStatus'])->name('domiciliario.index');
     //activar
     Route::post('/apartamento/activate/{id}', [ApartamentoController::class, 'activateStatus'])->name('apartamento.inactive');
     Route::post('/propietario/activate/{id}', [PropietarioController::class, 'activateStatus'])->name('propietario.inactive');
@@ -92,6 +93,7 @@ Route::middleware([
     Route::post('/vigilante/activate/{id}', [VigilanteController::class, 'activateStatus'])->name('vigilante.inactive');
     Route::post('/empleado/activate/{id}', [EmpleadoController::class, 'activateStatus'])->name('empleado.inactive');
     Route::post('/visitante/activate/{id}', [VisitanteController::class, 'activateStatus'])->name('visitante.inactive');
+    Route::post('/domiciliario/activate/{id}', [DomiciliarioController::class, 'activateStatus'])->name('domiciliario.inactive');
 
 
     // Ruta para el registro de usuarios (probablemente sea innecesaria si se gestiona por Jetstream)
