@@ -76,7 +76,11 @@ class AdministradorController extends Controller
         ]);
 
         $administrador->save();
-        return redirect()->back()->with('mensaje_create','');
+
+        return redirect()->route('administradors.index')
+            ->with('mensaje', 'administrador creado con éxito')
+            ->with('icon', 'success');
+
     }
 
     /**
@@ -115,14 +119,36 @@ class AdministradorController extends Controller
 
         $administrador = Administrador::findOrFail($id);
         $administrador->update($request->all());
-        return redirect()->route('administradors.index');
+        return redirect()->route('administradors.index')
+            ->with('mensaje', 'administrador actualizado con éxito')
+            ->with('icon', 'success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function updateStatus($id)
     {
-        //
+        try {
+            $administrador =  Administrador::findOrFail($id);
+            $administrador->Estado = 'inactivo';
+            $administrador->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function activateStatus($id)
+    {
+        try {
+            $administrador = Administrador::findOrFail($id);
+            $administrador->Estado= 'activo';
+            $administrador->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 }

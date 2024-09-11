@@ -79,9 +79,9 @@
                                                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                     </svg>
                                                 </a>
-                                                <button type="button" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded mr-2" onclick="#" title="Desativar">
+                                                <button type="button" onclick="confirmDeactivate('{{ $administrador->ID_Administrador }}')" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded mr-2" title="Desactivar">
                                                     <svg class="h-5 w-5 text-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
                                                     </svg>
                                                 </button>
                                         </div>
@@ -141,7 +141,7 @@
         function confirmDeactivate(id) {
             Swal.fire({
                 title: "¿Estás seguro?",
-                text: "¡Esto desativara el apartamento!",
+                text: "¡Esto desativara el administrador!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#297EA3",
@@ -150,7 +150,7 @@
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`{{ route('administradors.index', ':id') }}`.replace(':id', id), {
+                    fetch(`{{ route('administrador.index', ':id') }}`.replace(':id', id), {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -170,7 +170,7 @@
                         console.log('Respuesta del servidor:', data);
                         Swal.fire({
                             title: "¡Desativado!",
-                            text: "El apartamento ha sido desativado.",
+                            text: "El administrador ha sido desativado.",
                             icon: "success"
                         }).then(() => {
                             console.log('Recargando la página...');
@@ -181,7 +181,7 @@
                         console.error('Error:', error); // Log del error completo
                         Swal.fire({
                             title: "Error",
-                            text: `Hubo un problema al desativar el apartamento: ${error.message}`,
+                            text: `Hubo un problema al desativar el administrador: ${error.message}`,
                             icon: "error"
                         });
                     });
