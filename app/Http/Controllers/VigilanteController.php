@@ -34,7 +34,8 @@ class VigilanteController extends Controller
      */
     public function create()
     {
-        return view('vigilantes.create');
+        $vigilantesIds = Vigilante::pluck('ID_Vigilante')->toArray(); // Obtener los IDs de apartamentos
+        return view('vigilantes.create', compact('vigilantesIds'));
     }
 
     /**
@@ -75,7 +76,9 @@ class VigilanteController extends Controller
 
         $vigilante->save();
 
-        return redirect()->route('vigilantes.index');
+        return redirect()->route('vigilantes.index')
+            ->with('mensaje', 'Vigilante creado con éxito')
+            ->with('icon', 'success');
 
     }
 
@@ -118,14 +121,37 @@ class VigilanteController extends Controller
         $vigilante->update($request->all());
 
         // Redireccionar a la vista de listado de estudiantes
-        return redirect()->route('vigilantes.index');
+        return redirect()->route('vigilantes.index')
+            ->with('mensaje', 'Vigilante actualizado con éxito')
+            ->with('icon', 'success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function updateStatus($id)
     {
-        //
+        try {
+            $vigilante = Vigilante::findOrFail($id);
+            $vigilante->status = 'inactive';
+            $vigilante->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function activateStatus($id)
+    {
+        try {
+            $vigilante = Vigilante::findOrFail($id);
+            $vigilante->status = 'active'; // Cambia el status según tu lógica
+            $vigilante->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 }

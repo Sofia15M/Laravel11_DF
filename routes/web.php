@@ -82,11 +82,16 @@ Route::middleware([
     Route::post('/propietario/update-status/{id}', [PropietarioController::class, 'updateStatus'])->name('propietario.index');
     Route::post('/residente/update-status/{id}', [ResidenteController::class, 'updateStatus'])->name('residente.index');
     Route::post('/administrador/update-status/{id}', [AdministradorController::class, 'updateStatus'])->name('administrador.index');
+    Route::post('/vigilante/update-status/{id}', [VigilanteController::class, 'updateStatus'])->name('vigilante.index');
+    Route::post('/empleado/update-status/{id}', [EmpleadoController::class, 'updateStatus'])->name('empleado.index');
+    Route::post('/visitante/update-status/{id}', [VisitanteController::class, 'updateStatus'])->name('visitante.index');
     //activar
     Route::post('/apartamento/activate/{id}', [ApartamentoController::class, 'activateStatus'])->name('apartamento.inactive');
     Route::post('/propietario/activate/{id}', [PropietarioController::class, 'activateStatus'])->name('propietario.inactive');
     Route::post('/residente/activate/{id}', [ResidenteController::class, 'activateStatus'])->name('residente.inactive');
-    Route::post('/administrador/activate/{id}', [AdministradorController::class, 'activateStatus'])->name('administrador.inactive');
+    Route::post('/vigilante/activate/{id}', [VigilanteController::class, 'activateStatus'])->name('vigilante.inactive');
+    Route::post('/empleado/activate/{id}', [EmpleadoController::class, 'activateStatus'])->name('empleado.inactive');
+    Route::post('/visitante/activate/{id}', [VisitanteController::class, 'activateStatus'])->name('visitante.inactive');
 
 
     // Ruta para el registro de usuarios (probablemente sea innecesaria si se gestiona por Jetstream)
