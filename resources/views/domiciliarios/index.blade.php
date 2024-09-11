@@ -5,6 +5,17 @@
         </h2>
     </x-slot>
 
+    @if(request()->has('mensaje'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                var mensaje = "{{ request('mensaje') }}"; // Esto imprime el valor real del mensaje
+                if (mensaje){
+                    alert(mensaje); // Esto muestra el mensaje real en la alerta
+                }
+            });
+        </script>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6 lg:p-8">
@@ -62,12 +73,17 @@
 
                                 <td class="border px-4 py-2 text-center">
                                     <div class="flex justify-center">
-                                        <a href="{{ route('domiciliarios.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
-                                            <svg class="h-5 w-5 text-gray-100"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />  <circle cx="8.5" cy="7" r="4" />  <line x1="20" y1="8" x2="20" y2="14" />  <line x1="23" y1="11" x2="17" y2="11" /></svg>
+                                        <a href="{{ route('domiciliarios.edit', $domiciliario->Id_Domiciliario) }}" class="bg-verde dark:bg-verde1 hover:bg-verde dark:hover:bg-verde1 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Editar">
+                                            <svg class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                            </svg>
                                         </a>
-                                        <a href="{{ route('domiciliarios.inactive')}}" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Desativados">
-                                            <svg class="h-5 w-5 text-gray-100"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />  <line x1="1" y1="1" x2="23" y2="23" /></svg>
-                                        </a>
+                                        <button type="button" onclick="confirmDeactivate('{{ $domiciliario->Id_Domiciliario }}')" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Desactivar">
+                                            <svg class="h-5 w-5 text-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </td>
 
@@ -120,4 +136,58 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDeactivate(id) {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "¡Esto desativara el domiciliario!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#297EA3",
+                cancelButtonColor: "#4A5568",
+                confirmButtonText: "Sí, desativar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`{{ route('domiciliario.index', ':id') }}`.replace(':id', id), {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ _method: 'POST' }) // Ajusta esto si el backend necesita algún otro dato
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(text); // Obtén el mensaje de error del servidor
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Respuesta del servidor:', data);
+                        Swal.fire({
+                            title: "¡Desativado!",
+                            text: "El domiciliario ha sido desativado.",
+                            icon: "success"
+                        }).then(() => {
+                            console.log('Recargando la página...');
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Log del error completo
+                        Swal.fire({
+                            title: "Error",
+                            text: `Hubo un problema al desativar el domiciliario: ${error.message}`,
+                            icon: "error"
+                        });
+                    });
+                }
+            });
+        }
+    </script>
+
 </x-app-layout>

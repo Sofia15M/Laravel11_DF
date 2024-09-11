@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Apartamento;
 use App\Models\Domiciliario;
+use App\Models\Residente;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -33,7 +35,12 @@ class DomiciliarioController extends Controller
      */
     public function create()
     {
-        return view('domiciliarios.create');
+        $domiciliariosIds = Domiciliario::pluck('ID_Domiciliario')->toArray(); // Obtener los IDs de apartamentos
+        $apartamentos = Apartamento::all(); // Obtener la lista de apartamentos
+        $residentes = Residente::all();
+
+        // Pasar ambas variables a la vista
+        return view('domiciliarios.create', compact('domiciliariosIds', 'apartamentos', 'residentes'));
     }
 
     /**
@@ -64,7 +71,9 @@ class DomiciliarioController extends Controller
 
         $domiciliario->save();
 
-        return redirect()->route('domiciliarios.index');
+        return redirect()->route('domiciliarios.index')
+            ->with('mensaje', 'domiciliario creado con éxito')
+            ->with('icon', 'success');
 
     }
 
@@ -98,14 +107,39 @@ class DomiciliarioController extends Controller
 
         $domiciliario = Domiciliario::findOrFail($id);
         $domiciliario->update($request->all());
-        return redirect()->route('domiciliarios.index');
+        return redirect()->route('domiciliarios.index')
+            ->with('mensaje', 'domiciliario actualizado con éxito')
+            ->with('icon', 'success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+
+    public function updateStatus($id)
     {
-        //
+        try {
+            $domiciliario =  Domiciliario::findOrFail($id);
+            $domiciliario->Estado = 'inactivo';
+            $domiciliario->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
+
+    public function activateStatus($id)
+    {
+        try {
+            $domiciliario = Domiciliario::findOrFail($id);
+            $domiciliario->Estado= 'activo';
+            $domiciliario->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
 }
