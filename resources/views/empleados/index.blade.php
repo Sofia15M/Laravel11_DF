@@ -5,6 +5,17 @@
         </h2>
     </x-slot>
 
+    @if(request()->has('mensaje'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                var mensaje = "{{ request('mensaje') }}"; // Esto imprime el valor real del mensaje
+                if (mensaje){
+                    alert(mensaje); // Esto muestra el mensaje real en la alerta
+                }
+            });
+        </script>
+    @endif
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6 lg:p-8">
@@ -59,8 +70,8 @@
                                             <a href="{{ route('empleados.edit', $empleado->ID_PersonalL) }}" class="bg-verde dark:bg-verde1 hover:bg-verde dark:hover:bg-verde1 text-white font-bold py-2 px-4 rounded mr-2" title="Editar">
                                                 <svg class="h-5 w-5 text-white" <svg  width="24"  height="24"  viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
                                             </a>
-                                            <button type="button" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded mr-2" onclick="#" title="Desativar">
-                                                <svg class="h-5 w-5 text-gray-100"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <button type="button" onclick="confirmDeactivate('{{ $empleado->ID_PersonalL }}')" class="bg-naranja dark:bg-naranja1 hover:bg-naranja1 dark:hover:bg-naranja text-white font-bold py-2 px-4 rounded mr-2" title="Desactivar">
+                                                <svg class="h-5 w-5 text-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
                                                 </svg>
                                             </button>
@@ -116,4 +127,58 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDeactivate(id) {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "¡Esto desativara el empleado!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#297EA3",
+                cancelButtonColor: "#4A5568",
+                confirmButtonText: "Sí, desativar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`{{ route('empleado.index', ':id') }}`.replace(':id', id), {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({ _method: 'POST' }) // Ajusta esto si el backend necesita algún otro dato
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(text); // Obtén el mensaje de error del servidor
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Respuesta del servidor:', data);
+                        Swal.fire({
+                            title: "¡Desativado!",
+                            text: "El empleado ha sido desativado.",
+                            icon: "success"
+                        }).then(() => {
+                            console.log('Recargando la página...');
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error); // Log del error completo
+                        Swal.fire({
+                            title: "Error",
+                            text: `Hubo un problema al desativar el empleado: ${error.message}`,
+                            icon: "error"
+                        });
+                    });
+                }
+            });
+        }
+    </script>
+
 </x-app-layout>

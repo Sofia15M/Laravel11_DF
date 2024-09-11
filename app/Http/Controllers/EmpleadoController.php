@@ -33,7 +33,10 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return view('empleados.create');
+
+        $empleadosIds = Empleado::pluck('ID_PersonalL')->toArray(); // Obtener los IDs de visitantes
+        return view('empleados.create', compact('empleadosIds'));
+
     }
 
     /**
@@ -74,7 +77,9 @@ class EmpleadoController extends Controller
 
         $empleado->save();
 
-        return redirect()->route('empleados.index');
+        return redirect()->route('empleados.index')
+            ->with('mensaje', 'Empleado creado con éxito')
+            ->with('icon', 'success');
     }
 
     /**
@@ -112,14 +117,36 @@ class EmpleadoController extends Controller
 
         $empleado = Empleado::findOrFail($id);
         $empleado->update($request->all());
-        return redirect()->route('empleados.index');
+        return redirect()->route('empleados.index')
+            ->with('mensaje', 'Empleado actualizado con éxito')
+            ->with('icon', 'success');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function updateStatus($id)
     {
-        //
+        try {
+            $empleado = Empleado::findOrFail($id);
+            $empleado->status = 'inactive';
+            $empleado->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function activateStatus($id)
+    {
+        try {
+            $empleado = Empleado::findOrFail($id);
+            $empleado->status = 'active'; // Cambia el status según tu lógica
+            $empleado->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 }
