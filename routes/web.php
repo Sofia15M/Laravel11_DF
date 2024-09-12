@@ -90,6 +90,7 @@ Route::middleware([
     Route::post('/apartamento/activate/{id}', [ApartamentoController::class, 'activateStatus'])->name('apartamento.inactive');
     Route::post('/propietario/activate/{id}', [PropietarioController::class, 'activateStatus'])->name('propietario.inactive');
     Route::post('/residente/activate/{id}', [ResidenteController::class, 'activateStatus'])->name('residente.inactive');
+    Route::post('/administrador/activate/{id}', [AdministradorController::class, 'activateStatus'])->name('administrador.inactive');
     Route::post('/vigilante/activate/{id}', [VigilanteController::class, 'activateStatus'])->name('vigilante.inactive');
     Route::post('/empleado/activate/{id}', [EmpleadoController::class, 'activateStatus'])->name('empleado.inactive');
     Route::post('/visitante/activate/{id}', [VisitanteController::class, 'activateStatus'])->name('visitante.inactive');

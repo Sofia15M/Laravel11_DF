@@ -9,7 +9,7 @@
             });
         </script>
     @endif
-    <div class="py-12">
+    <div class="py-12">.
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6 lg:p-8">
 
@@ -42,10 +42,10 @@
                                 <input type="text" name="Nombre_Administrador" id="Nombre_Administrador" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
 
-                            <div class="mb-5">
+                            {{-- <div class="mb-5">
                                 <label for="Foto_Administrador" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Administrador</label>
                                 <input type="file" id="Foto_Administrador" name="Foto_Administrador" accept="image/*" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            </div>
+                            </div> --}}
 
                             <div class="mb-5">
                                 <label for="Edad_Administrador" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Edad:</label>
@@ -89,6 +89,17 @@
                                 <input type="text" name="ID_UNIDAD" id="ID_UNIDAD" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
 
+                            <!-- Campo para capturar foto con la cámara -->
+                            <div class="mb-5">
+                                <label for="Foto_Administrador" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Administrador</label>
+                                <div class="mb-4">
+                                    <video id="video" class="w-full h-64 bg-gray-300"></video>
+                                    <button id="capture" type="button" class="bg-blue-500 text-white px-4 py-2 mt-4">Capturar Foto</button>
+                                </div>
+                                <canvas id="canvas" class="hidden"></canvas>
+                                <input type="hidden" id="imageData" name="imageData">
+                            </div>
+
 
                             <button type="submit" class="text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:azul3 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-Azul3 dark:hover:bg-Azul2 dark:focus:ring-Azul3">Guardar</button>
                             <a href="{{ route('administradors.index') }}" class="text-white bg-slate-700 hover:bg-slate-800 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-slate-600 dark:hover:bg-slate-700 dark:focus:ring-slate-800">Cancelar</a>
@@ -118,6 +129,34 @@
                 } else {
                     document.getElementById('error-id-administrador').textContent = '';
                 }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const captureButton = document.getElementById('capture');
+            const imageDataInput = document.getElementById('imageData');
+            const context = canvas.getContext('2d');
+
+            // Acceder a la cámara
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(err => {
+                    console.error('Error al acceder a la cámara:', err);
+                });
+
+            // Capturar la imagen
+            captureButton.addEventListener('click', function () {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png');
+                imageDataInput.value = imageData;
+                canvas.classList.remove('hidden');
             });
         });
     </script>
