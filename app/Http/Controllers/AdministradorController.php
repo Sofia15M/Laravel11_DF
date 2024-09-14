@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Administrador;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -12,16 +13,39 @@ class AdministradorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $administradors = Administrador::where('Estado', 'activo')->paginate(10);
+
+        $query = Administrador::where('Estado', 'activo');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Administrador', 'like', '%' . $request->search . '%')
+                  ->orWhere('Nombre_Administrador', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $administradors = $query->paginate(10);
+
         return view('administradors.index', compact('administradors'));
     }
 
-    public function inactive()
+    public function inactive(Request $request)
     {
-        $administradors = Administrador::where('Estado', 'inactivo')->paginate(10);
+
+        $query = Administrador::where('Estado', 'inactivo');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Administrador', 'like', '%' . $request->search . '%')
+                  ->orWhere('Nombre_Administrador', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $administradors = $query->paginate(10);
+
         return view('administradors.inactive', compact('administradors'));
+
     }
 
     public function pdf(){
@@ -59,6 +83,10 @@ class AdministradorController extends Controller
             'ID_UNIDAD' => 'nullable|integer',
         ]);
 
+        // Obtener y sanear el nombre del administrador
+        $nombreAdministrador = $request->get('Nombre_Administrador');
+        $nombreLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombreAdministrador); // Reemplaza espacios y caracteres especiales por "_"
+
         // Procesar la imagen de la cámara (base64) si está presente
         if ($request->filled('imageData')) {
             $imageData = $request->input('imageData');
@@ -66,8 +94,8 @@ class AdministradorController extends Controller
             $imageData = str_replace(' ', '+', $imageData);
             $image = base64_decode($imageData);
 
-            // Generar un nombre único para la imagen
-            $imageName = uniqid() . '.png';
+            // Generar un nombre de archivo basado en el nombre del administrador
+            $imageName = $nombreLimpio . '_' . uniqid() . '.png';
 
             // Guardar la imagen en el almacenamiento público
             Storage::disk('public')->put('fotos_administrador/' . $imageName, $image);
@@ -78,14 +106,19 @@ class AdministradorController extends Controller
         // Procesar la imagen cargada desde un archivo
         if ($request->hasFile('Foto_Administrador')) {
             $image = $request->file('Foto_Administrador');
-            $path = $image->store('fotos_administrador', 'public');
+
+            // Generar un nombre de archivo basado en el nombre del administrador
+            $imageName = $nombreLimpio . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar la imagen en el almacenamiento público
+            $path = $image->storeAs('fotos_administrador', $imageName, 'public');
         }
 
-        // Guardar la información del administrador en la base de datos
+        // Crear el administrador y asignar los datos
         $administrador = new Administrador([
             'ID_Administrador' => $request->get('ID_Administrador'),
             'Foto_Administrador' => $path ?? null, // Guardar la ruta de la imagen si existe
-            'Nombre_Administrador' => $request->get('Nombre_Administrador'),
+            'Nombre_Administrador' => $nombreAdministrador,
             'Edad_Administrador' => $request->get('Edad_Administrador'),
             'Cargo_Administrador' => $request->get('Cargo_Administrador'),
             'Direccion_Administrador' => $request->get('Direccion_Administrador'),
@@ -95,12 +128,15 @@ class AdministradorController extends Controller
             'ID_UNIDAD' => $request->get('ID_UNIDAD'),
         ]);
 
+        // Guardar el administrador en la base de datos
         $administrador->save();
 
+        // Redirigir a la lista de administradores con un mensaje de éxito
         return redirect()->route('administradors.index')
             ->with('mensaje', 'Administrador creado con éxito')
             ->with('icon', 'success');
-}
+    }
+
 
     /**
      * Display the specified resource.
@@ -141,6 +177,10 @@ class AdministradorController extends Controller
         // Buscar al administrador
         $administrador = Administrador::findOrFail($id);
 
+        // Obtener y sanear el nombre del administrador
+        $nombreAdministrador = $request->input('Nombre_Administrador');
+        $nombreLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombreAdministrador); // Reemplaza espacios y caracteres especiales por "_"
+
         // Procesar la imagen base64 (si se captura desde la cámara)
         if ($request->filled('imageData')) {
             $imageData = $request->input('imageData');
@@ -148,8 +188,8 @@ class AdministradorController extends Controller
             $imageData = str_replace(' ', '+', $imageData);
             $image = base64_decode($imageData);
 
-            // Generar un nombre único para la imagen
-            $imageName = uniqid() . '.png';
+            // Generar un nombre de archivo basado en el nombre del administrador
+            $imageName = $nombreLimpio . '_' . uniqid() . '.png';
 
             // Guardar la imagen en el almacenamiento público
             Storage::disk('public')->put('fotos_administrador/' . $imageName, $image);
@@ -161,18 +201,25 @@ class AdministradorController extends Controller
         // Procesar la imagen cargada manualmente (si se selecciona un archivo)
         if ($request->hasFile('Foto_Administrador_File')) {
             $image = $request->file('Foto_Administrador_File');
-            $path = $image->store('fotos_administrador', 'public');
+
+            // Generar un nombre de archivo basado en el nombre del administrador
+            $imageName = $nombreLimpio . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar la imagen en el almacenamiento público
+            $path = $image->storeAs('fotos_administrador', $imageName, 'public');
+
+            // Actualizar la ruta de la imagen en el modelo
             $administrador->Foto_Administrador = $path;
         }
 
         // Actualizar los demás campos del administrador
-        $administrador->Nombre_Administrador = $request->input('Nombre_Administrador');
+        $administrador->Nombre_Administrador = $nombreAdministrador;
         $administrador->Edad_Administrador = $request->input('Edad_Administrador');
         $administrador->Cargo_Administrador = $request->input('Cargo_Administrador');
         $administrador->Direccion_Administrador = $request->input('Direccion_Administrador');
         $administrador->Tel_Cel_Administrador = $request->input('Tel_Cel_Administrador');
         $administrador->Tiempo_trabajo = $request->input('Tiempo_trabajo');
-        $administrador->Fecha_Registro = $request->input('Fecha_Registro');
+        $administrador->Fecha_Registro = Carbon::now();
 
         // Guardar los cambios
         $administrador->save();

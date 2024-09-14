@@ -68,7 +68,7 @@
                     <!-- Mostrar la foto actual -->
                     <div class="mb-5">
                         <label for="Foto_Administrador" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Actual</label>
-                        <img src="{{ asset('storage/' . $administrador->Foto_Administrador) }}" alt="Foto del Administrador" class="w-32 h-32 rounded-full">
+                        <img src="{{ asset('storage/' . $administrador->Foto_Administrador) }}" alt="Foto del Administrador" class="w-50">
                     </div>
 
                     <!-- Área para capturar nueva imagen con la cámara -->
@@ -119,6 +119,6 @@
             });
         });
     </script>
-    
+
 </x-app-layout>
 

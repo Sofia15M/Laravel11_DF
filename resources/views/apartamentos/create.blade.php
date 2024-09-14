@@ -40,6 +40,11 @@
                     <!-- Campo Descripcion -->
                     <div class="mb-5">
                         <label for="Descripcion_Apartamento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción:</label>
+                        <textarea name="Descripcion_Apartamento" id="Descripcion_Apartamento" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" rows="4" required></textarea>
+                    </div>
+
+                    {{--<div class="mb-5">
+                        <label for="Descripcion_Apartamento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción:</label>
                         <select name="Descripcion_Apartamento" id="Descripcion_Apartamento" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
                             <option value="" disabled selected>Selecciona un tipo de apartamento</option>
                             <option value="estudio">Estudio</option>
@@ -49,7 +54,7 @@
                             <option value="duplex">Dúplex</option>
                             <option value="penthouse">Penthouse</option>
                         </select>
-                    </div>
+                    </div> --}}
 
                     <!-- Campo N. Identificacion Propietario -->
                     <div class="mb-5">

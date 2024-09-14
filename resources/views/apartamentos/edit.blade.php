@@ -29,13 +29,20 @@
                     @method('PUT')
 
                     <div class="mb-5">
-                        <label for="Descripcion_Apartamento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre Completo:</label>
-                        <input type="text" name="Descripcion_Apartamento" id="Descripcion_Apartamento" value="{{ old('Descripcion_Apartamento', $apartamento->Descripcion_Apartamento) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
+                        <label for="Descripcion_Apartamento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripcion Apartamento:</label>
+                        <textarea name="Descripcion_Apartamento" id="Descripcion_Apartamento" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" rows="4" required>{{ old('Descripcion_Apartamento', $apartamento->Descripcion_Apartamento) }}</textarea>
                     </div>
 
                     <div class="mb-5">
-                        <label for="ID_Propietario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Numero de contacto:</label>
-                        <input type="text" name="ID_Propietario" id="ID_Propietario" value="{{ old('ID_Propietario', $apartamento->ID_Propietario) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
+                        <label for="ID_Propietario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">N. Identificacion del Propietario:</label>
+                        <select name="ID_Propietario" id="ID_Propietario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
+                            <option value="">Seleccione un propietario</option>
+                            @foreach($propietarios as $propietario)
+                                <option value="{{ $propietario->ID_Propietario }}" {{ $propietario->ID_Propietario == old('ID_Propietario', $apartamento->ID_Propietario) ? 'selected' : '' }}>
+                                    {{ $propietario->Nombre_Propietario }} ({{ $propietario->ID_Propietario }})
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <button type="submit" class="text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:azul3 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-Azul3 dark:hover:bg-Azul2 dark:focus:ring-Azul3">Guardar</button>

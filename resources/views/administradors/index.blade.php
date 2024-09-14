@@ -25,6 +25,15 @@
                 <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
 
                     <div class="mb-4">
+                        <form action="{{ route('administradors.index') }}" method="GET">
+                            <div class="flex items-center mb-5">
+                                <input type="text" name="search" placeholder="Buscar por ID o Nombre" class="border border-gray-200 bg-gray-20 text-gray-900 rounded-md px-4 py-2 w-full focus:outline-none focus:bg-white focus:ring-2 focus:ring-Azul3">
+                                <button type="submit" class="ml-2 bg-Azul3 text-white font-bold py-2 px-4 rounded hover:bg-Azul2">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="mb-4">
                         @if (auth()->user()->id_rol == 1)
                             <a href="{{ route('administradors.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
                                 <svg class="h-5 w-5 text-gray-100"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />  <circle cx="8.5" cy="7" r="4" />  <line x1="20" y1="8" x2="20" y2="14" />  <line x1="23" y1="11" x2="17" y2="11" /></svg>

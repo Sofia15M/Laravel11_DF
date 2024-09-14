@@ -12,17 +12,38 @@ class ApartamentoController extends Controller
 {
 
     //Muestra el listado de los apartamentos activos.
-    public function index()
+    public function index(Request $request)
     {
-        $apartamentos = Apartamento::where('status', 'active')->paginate(10);
+
+        $query = Apartamento::where('status', 'active');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Apartamento', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $apartamentos = $query->paginate(10);
+
         return view('apartamentos.index', compact('apartamentos'));
     }
 
     //Muestra el listado de los apartamentos inactivos.
-    public function inactive()
+    public function inactive(Request $request)
     {
-        $apartamentos = Apartamento::where('status', 'inactive')->paginate(10);
+
+        $query = Apartamento::where('status', 'inactive');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Apartamento', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $apartamentos = $query->paginate(10);
+
         return view('apartamentos.inactive', compact('apartamentos'));
+
     }
 
     // Genera los PDF de todos los apartmentos, ademas lo redirige.
@@ -70,7 +91,8 @@ class ApartamentoController extends Controller
     public function edit(string $id)
     {
         $apartamento = Apartamento::findOrFail($id);
-        return view('apartamentos.edit', compact('apartamento'));
+        $propietarios = Propietario::all();
+        return view('apartamentos.edit', compact('apartamento', 'propietarios'));
     }
 
     //Funcion de actualizar

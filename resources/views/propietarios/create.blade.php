@@ -42,16 +42,25 @@
                         <input type="text" name="Nombre_Propietario" id="Nombre_Propietario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
                     </div>
 
-
-
-                    <div class="mb-5">
+                    {{-- <div class="mb-5">
                         <label for="Foto_Propietario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto:</label>
                         <input type="file" id="Foto_Propietario" name="Foto_Propietario" accept="image/*" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
-                    </div>
+                    </div> --}}
 
                     <div class="mb-5">
                         <label for="Tel_Cel_Propietario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Numero de contacto:</label>
                         <input type="text" name="Tel_Cel_Propietario" id="Tel_Cel_Propietario" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-Azul3 focus:border-Azul3 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-Azul3 dark:focus:border-Azul3" required>
+                    </div>
+
+                    <!-- Campo para capturar foto con la cámara -->
+                    <div class="mb-5">
+                        <label for="Foto_Propietario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Propietario</label>
+                        <div class="mb-4">
+                            <video id="video" class="w-full h-64 bg-gray-300"></video>
+                            <button id="capture" type="button" class="bg-blue-500 text-white px-4 py-2 mt-4">Capturar Foto</button>
+                        </div>
+                        <canvas id="canvas" class="hidden"></canvas>
+                        <input type="hidden" id="imageData" name="imageData">
                     </div>
 
                     <button type="submit" class="text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:azul3 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-Azul3 dark:hover:bg-Azul2 dark:focus:ring-Azul3">Guardar</button>
@@ -80,6 +89,34 @@
                 } else {
                     document.getElementById('error-id-propietario').textContent = '';
                 }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const captureButton = document.getElementById('capture');
+            const imageDataInput = document.getElementById('imageData');
+            const context = canvas.getContext('2d');
+
+            // Acceder a la cámara
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(err => {
+                    console.error('Error al acceder a la cámara:', err);
+                });
+
+            // Capturar la imagen
+            captureButton.addEventListener('click', function () {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png');
+                imageDataInput.value = imageData;
+                canvas.classList.remove('hidden');
             });
         });
     </script>
