@@ -6,24 +6,45 @@ use Illuminate\Support\Facades\DB;
 
 class PersonaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $personas = DB::select("
-            SELECT ID_Administrador AS ID, Foto_Administrador AS Foto, 'administradors' AS Tabla FROM administradors
+        $search = $request->search;
+
+        // Armar consulta SQL con búsqueda si el campo 'search' está presente
+        $sql = "
+            SELECT ID_Administrador AS ID, Foto_Administrador AS Foto, 'administradors' AS Tabla
+            FROM administradors
+            " . ($request->filled('search') ? "WHERE ID_Administrador LIKE '%{$search}%'" : "") . "
             UNION ALL
-            SELECT Id_Domiciliario AS ID, Nombre_Recidente AS Foto, 'domiciliarios' AS Tabla FROM domiciliarios
+            SELECT Id_Domiciliario AS ID, Nombre_Recidente AS Foto, 'domiciliarios' AS Tabla
+            FROM domiciliarios
+            " . ($request->filled('search') ? "WHERE Id_Domiciliario LIKE '%{$search}%'" : "") . "
             UNION ALL
-            SELECT ID_PersonalL AS ID, Foto_PersonalL AS Foto, 'empleados' AS Tabla FROM empleados
+            SELECT ID_PersonalL AS ID, Foto_PersonalL AS Foto, 'empleados' AS Tabla
+            FROM empleados
+            " . ($request->filled('search') ? "WHERE ID_PersonalL LIKE '%{$search}%'" : "") . "
             UNION ALL
-            SELECT ID_Propietario AS ID, Foto_Propietario AS Foto, 'propietarios' AS Tabla FROM propietarios
+            SELECT ID_Propietario AS ID, Foto_Propietario AS Foto, 'propietarios' AS Tabla
+            FROM propietarios
+            " . ($request->filled('search') ? "WHERE ID_Propietario LIKE '%{$search}%'" : "") . "
             UNION ALL
-            SELECT ID_Residente AS ID, Foto_Residente AS Foto, 'residentes' AS Tabla FROM residentes
+            SELECT ID_Residente AS ID, Foto_Residente AS Foto, 'residentes' AS Tabla
+            FROM residentes
+            " . ($request->filled('search') ? "WHERE ID_Residente LIKE '%{$search}%'" : "") . "
             UNION ALL
-            SELECT ID_Vigilante AS ID, Foto_Vigilante AS Foto, 'vigilantes' AS Tabla FROM vigilantes
+            SELECT ID_Vigilante AS ID, Foto_Vigilante AS Foto, 'vigilantes' AS Tabla
+            FROM vigilantes
+            " . ($request->filled('search') ? "WHERE ID_Vigilante LIKE '%{$search}%'" : "") . "
             UNION ALL
-            SELECT ID_Visitante AS ID, Foto_Visitante AS Foto, 'visitantes' AS Tabla FROM visitantes
-        ");
+            SELECT ID_Visitante AS ID, Foto_Visitante AS Foto, 'visitantes' AS Tabla
+            FROM visitantes
+            " . ($request->filled('search') ? "WHERE ID_Visitante LIKE '%{$search}%'" : "") . "
+        ";
+
+        // Ejecutar consulta SQL
+        $personas = DB::select($sql);
 
         return view('personas.index', compact('personas'));
     }
 }
+
