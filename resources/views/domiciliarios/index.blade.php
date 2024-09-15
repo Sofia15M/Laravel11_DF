@@ -21,9 +21,17 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-6 lg:p-8">
                 <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
 
+                    <div class="mb-4">
+                        <form action="{{ route('domiciliarios.index') }}" method="GET">
+                            <div class="flex items-center mb-5">
+                                <input type="text" name="search" placeholder="Buscar por ID o Nombre" class="border border-gray-200 bg-gray-20 text-gray-900 rounded-md px-4 py-2 w-full focus:outline-none focus:bg-white focus:ring-2 focus:ring-Azul3">
+                                <button type="submit" class="ml-2 bg-Azul3 text-white font-bold py-2 px-4 rounded hover:bg-Azul2">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
 
                     <div class="mb-4">
-                        <a href="{{ route('domiciliarios.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul dark:hover:bg-azul1 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
+                        <a href="{{ route('domiciliarios.create') }}" class="bg-Azul3 dark:bg-Azul3 hover:bg-Azul2 dark:hover:bg-Azul4 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
                                 <svg class="h-5 w-5 text-gray-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                                     <line x1="12" y1="8" x2="12" y2="16" />
@@ -36,7 +44,7 @@
                                 <line x1="1" y1="1" x2="23" y2="23" />
                             </svg>
                         </a>
-                        <a href="{{ route('domiciliarios.pdf')}}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded float-right" title="Imprimir" target="_blank">
+                        <a href="{{ route('domiciliarios.pdf')}}" class="bg-Azul3 dark:bg-Azul3 hover:bg-Azul2 dark:hover:bg-Azul4 text-white font-bold py-2 px-4 rounded float-right" title="Imprimir" target="_blank">
                             <svg class="h-5 w-5 text-gray-100" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z"/>
                                 <path d="M14 3v4a1 1 0 0 0 1 1h4" />
@@ -54,7 +62,7 @@
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Foto</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Nombre Completo</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Nombre Residente</th>
-                                <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">N. domiciliario</th>
+                                <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">N. Apartamento</th>
                                 <th class="border px-4 py-2 text-gray-900 dark:text-white text-center">Acciones</th>
                             </tr>
                         </thead>
@@ -67,7 +75,7 @@
                                 </td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $domiciliario->Nombre_Domiciliario }}</td>
                                 <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $domiciliario->Nombre_Recidente }}</td>
-                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $domiciliario->ID_Apartamento }}</td>
+                                <td class="border px-4 py-2 text-gray-900 dark:text-white text-center">{{ $domiciliario->id_Apartamento }}</td>
 
                                 <td class="border px-4 py-2 text-center">
                                     <div class="flex justify-center">

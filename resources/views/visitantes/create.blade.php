@@ -43,10 +43,10 @@
                                 <input type="text" name="Nombre_Visitante" id="Nombre_Visitante" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
 
-                            <div class="mb-5">
+                            {{-- <div class="mb-5">
                                 <label for="Foto_Visitante" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Visitante:</label>
                                 <input type="file" id="Foto_Visitante" name="Foto_Visitante" accept="image/*" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            </div>
+                            </div> --}}
 
                             <div class="mb-5">
                                 <label for="Tel_Cel_Visitante" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Numero de contacto:</label>
@@ -71,6 +71,17 @@
                             <div class="mb-5">
                                 <label for="Hora_Salida" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de Salida:</label>
                                 <input type="datetime-local" name="Hora_Salida" id="Hora_Salida" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+
+                            <!-- Campo para capturar foto con la cámara -->
+                            <div class="mb-5">
+                                <label for="Foto_Visitante" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Visitante</label>
+                                <div class="mb-4">
+                                    <video id="video" class="w-full h-64 bg-gray-300"></video>
+                                    <button id="capture" type="button" class="bg-blue-500 text-white px-4 py-2 mt-4">Capturar Foto</button>
+                                </div>
+                                <canvas id="canvas" class="hidden w-full max-w-sm rounded-lg border-2 border-gray-300 shadow-md"></canvas>
+                                <input type="hidden" id="imageData" name="imageData">
                             </div>
 
                             <button type="submit" class="text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:azul3 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-Azul3 dark:hover:bg-Azul2 dark:focus:ring-Azul3">Guardar</button>
@@ -102,6 +113,35 @@
                 }
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const captureButton = document.getElementById('capture');
+            const imageDataInput = document.getElementById('imageData');
+            const context = canvas.getContext('2d');
+
+            // Acceder a la cámara
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(err => {
+                    console.error('Error al acceder a la cámara:', err);
+                });
+
+            // Capturar la imagen
+            captureButton.addEventListener('click', function () {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png');
+                imageDataInput.value = imageData;
+                canvas.classList.remove('hidden');
+            });
+        });
+
     </script>
 
 </x-app-layout>

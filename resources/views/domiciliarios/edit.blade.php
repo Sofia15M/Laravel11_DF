@@ -39,12 +39,43 @@
 
                     <div class="mb-5">
                         <label for="Nombre_Recidente" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre Residente:</label>
-                        <input type="text" name="Nombre_Recidente" id="Nombre_Recidente" value="{{ old('Nombre_Recidente', $domiciliario->Nombre_Recidente) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <select name="Nombre_Recidente" id="Nombre_Recidente" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option value="">Seleccione un residente</option>
+                            @foreach($residentes as $residente)
+                                <option value="{{ $residente->Nombre_Residente }}" {{ old('Nombre_Recidente', $domiciliario->Nombre_Recidente) == $residente->Nombre_Residente ? 'selected' : '' }}>
+                                    {{ $residente->Nombre_Residente }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="mb-5">
                         <label for="id_Apartamento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">N. Apartamento:</label>
-                        <input type="text" name="id_Apartamento" id="id_Apartamento" value="{{ old('id_Apartamento', $domiciliario->id_Apartamento) }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <select name="id_Apartamento" id="id_Apartamento" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <option value="">Seleccione un apartamento</option>
+                            @foreach($apartamentos as $apartamento)
+                                <option value="{{ $apartamento->ID_Apartamento }}" {{ old('id_Apartamento', $domiciliario->id_Apartamento) == $apartamento->ID_Apartamento ? 'selected' : '' }}>
+                                    {{ $apartamento->ID_Apartamento }} ({{ $apartamento->status }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Mostrar la foto actual -->
+                    <div class="mb-5">
+                        <label for="Foto_Domiciliario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Foto Actual</label>
+                        <img src="{{ asset('storage/' . $domiciliario->Foto_Domiciliario) }}" alt="Foto del Domiciliario" class="w-50">
+                    </div>
+
+                    <!-- Área para capturar nueva imagen con la cámara -->
+                    <div class="mb-5">
+                        <label for="Foto_Domiciliario" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nueva Foto (opcional)</label>
+                        <div class="mb-4">
+                            <video id="video" class="w-full h-64 bg-gray-300"></video>
+                            <button id="capture" type="button" class="bg-blue-500 text-white px-4 py-2 mt-4">Capturar Foto</button>
+                        </div>
+                        <canvas id="canvas" class="hidden w-full max-w-sm rounded-lg border-2 border-gray-300 shadow-md"></canvas>
+                        <input type="hidden" id="imageData" name="imageData">
                     </div>
 
                     <button type="submit" class="text-white bg-Azul3 hover:bg-Azul2 focus:ring-4 focus:outline-none focus:azul3 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-Azul3 dark:hover:bg-Azul2 dark:focus:ring-Azul3">Actualizar</button>
@@ -54,4 +85,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            const captureButton = document.getElementById('capture');
+            const imageDataInput = document.getElementById('imageData');
+            const context = canvas.getContext('2d');
+
+            // Acceder a la cámara
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(err => {
+                    console.error('Error al acceder a la cámara:', err);
+                });
+
+            // Capturar la imagen
+            captureButton.addEventListener('click', function () {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = canvas.toDataURL('image/png');
+                imageDataInput.value = imageData;
+                canvas.classList.remove('hidden');
+            });
+        });
+    </script>
 </x-app-layout>

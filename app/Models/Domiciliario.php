@@ -11,7 +11,7 @@ class Domiciliario extends Model
 
     protected $primaryKey = 'Id_Domiciliario';
     public $incrementing = false;
-    protected $keyType = 'string';
+    protected $keyType = 'int';
 
     protected $fillable = [
         'Id_Domiciliario',

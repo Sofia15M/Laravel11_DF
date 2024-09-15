@@ -6,21 +6,44 @@ use App\Models\Apartamento;
 use App\Models\Visitante;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class VisitanteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $visitantes = Visitante::where('status', 'active')->paginate(10);
+
+        $query = Visitante::where('status', 'active');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Visitante', 'like', '%' . $request->search . '%')
+                  ->orWhere('Nombre_Visitante', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $visitantes = $query->paginate(10);
+
         return view('visitantes.index', compact('visitantes'));
+
     }
 
-    public function inactive()
+    public function inactive(Request $request)
     {
-        $visitantes = Visitante::where('status', 'inactive')->paginate(10);
+        $query = Visitante::where('status', 'inactive');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Visitante', 'like', '%' . $request->search . '%')
+                  ->orWhere('Nombre_Visitante', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $visitantes = $query->paginate(10);
+
         return view('visitantes.inactive', compact('visitantes'));
     }
 
@@ -46,38 +69,69 @@ class VisitanteController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los campos del formulario
         $request->validate([
-            'Nombre_Visitante' => 'required|string|max:255',
-            'Foto_Visitante' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'Tel_Cel_Visitante' => 'required|string|max:255',
             'ID_Visitante' => 'required|integer|unique:visitantes,ID_Visitante',
+            'Foto_Visitante' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Permitir imagen como archivo
+            'imageData' => 'nullable|string', // Validar el campo para imagen base64
+            'Nombre_Visitante' => 'required|string|max:255',
+            'Tel_Cel_Visitante' => 'required|string|max:255',
             'ID_Apartamento' => 'required|integer|exists:apartamentos,ID_Apartamento',
             'Hora_Ingreso' => 'required|date',
-            'Hora_Salida' => 'nullable|date' 
+            'Hora_Salida' => 'nullable|date',
         ]);
 
-        $path = null;
-        if ($request->hasFile('Foto_Visitante')) {
-            $image = $request->file('Foto_Visitante');
-            $path = $image->store('fotos_visitantes', 'public');
+        // Obtener y sanear el nombre del visitante
+        $nombreVisitante = $request->get('Nombre_Visitante');
+        $nombreLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombreVisitante); // Reemplaza espacios y caracteres especiales por "_"
+
+        // Procesar la imagen de la cámara (base64) si está presente
+        if ($request->filled('imageData')) {
+            $imageData = $request->input('imageData');
+            $imageData = str_replace('data:image/png;base64,', '', $imageData);
+            $imageData = str_replace(' ', '+', $imageData);
+            $image = base64_decode($imageData);
+
+            // Generar un nombre de archivo basado en el nombre del visitante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.png';
+
+            // Guardar la imagen en el almacenamiento público
+            Storage::disk('public')->put('fotos_visitantes/' . $imageName, $image);
+
+            $path = 'fotos_visitantes/' . $imageName;
         }
 
+        // Procesar la imagen cargada desde un archivo
+        if ($request->hasFile('Foto_Visitante')) {
+            $image = $request->file('Foto_Visitante');
+
+            // Generar un nombre de archivo basado en el nombre del visitante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar la imagen en el almacenamiento público
+            $path = $image->storeAs('fotos_visitantes', $imageName, 'public');
+        }
+
+        // Crear el visitante y asignar los datos
         $visitante = new Visitante([
-            'ID_Visitante' => $request->ID_Visitante,
-            'Nombre_Visitante' => $request->Nombre_Visitante,
-            'Tel_Cel_Visitante' => $request->Tel_Cel_Visitante,
-            'ID_Apartamento' => $request->ID_Apartamento, // Asegúrate de guardar este campo
-            'Hora_Ingreso' => $request->Hora_Ingreso,
-            'Hora_Salida' => $request->Hora_Salida,
-            'Foto_Visitante' => $path
+            'ID_Visitante' => $request->get('ID_Visitante'),
+            'Foto_Visitante' => $path ?? null, // Guardar la ruta de la imagen si existe
+            'Nombre_Visitante' => $nombreVisitante,
+            'Tel_Cel_Visitante' => $request->get('Tel_Cel_Visitante'),
+            'ID_Apartamento' => $request->get('ID_Apartamento'), // Asegúrate de guardar este campo
+            'Hora_Ingreso' => $request->get('Hora_Ingreso'),
+            'Hora_Salida' => $request->get('Hora_Salida'),
         ]);
 
+        // Guardar el visitante en la base de datos
         $visitante->save();
 
+        // Redirigir a la lista de visitantes con un mensaje de éxito
         return redirect()->route('visitantes.index')
             ->with('mensaje', 'Visitante creado con éxito')
             ->with('icon', 'success');
     }
+
 
 
     /**
@@ -94,7 +148,8 @@ class VisitanteController extends Controller
     public function edit(string $id)
     {
         $visitante = Visitante::findOrFail($id);
-        return view('visitantes.edit', compact('visitante'));
+        $apartamentos = Apartamento::all();
+        return view('visitantes.edit', compact('visitante', 'apartamentos'));
     }
 
     /**
@@ -102,24 +157,63 @@ class VisitanteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $request->validate([
-                'Nombre_Visitante' => 'required|string|max:255',
-                'Tel_Cel_Visitante' => 'required|string|max:255',
-            ]);
+        // Validación de los campos del formulario
+        $request->validate([
+            'Foto_Visitante_File' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación para la imagen subida
+            'imageData' => 'nullable|string', // Validación para la imagen capturada desde la cámara (base64)
+            'Nombre_Visitante' => 'required|string|max:255',
+            'Tel_Cel_Visitante' => 'required|string|max:255',
+        ]);
 
-            $visitante = Visitante::findOrFail($id);
+        // Buscar al visitante
+        $visitante = Visitante::findOrFail($id);
 
-            $visitante->update($request->all());
+        // Obtener y sanear el nombre del visitante
+        $nombreVisitante = $request->input('Nombre_Visitante');
+        $nombreLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombreVisitante); // Reemplaza espacios y caracteres especiales por "_"
 
-            return redirect()->route('visitantes.index')
-                ->with('mensaje', 'Visitante actualizado con éxito')
-                ->with('icon', 'success');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('mensaje', 'Error actualizando el visitante: ' . $e->getMessage())
-                ->with('icon', 'error');
+        // Procesar la imagen base64 (si se captura desde la cámara)
+        if ($request->filled('imageData')) {
+            $imageData = $request->input('imageData');
+            $imageData = str_replace('data:image/png;base64,', '', $imageData);
+            $imageData = str_replace(' ', '+', $imageData);
+            $image = base64_decode($imageData);
+
+            // Generar un nombre de archivo basado en el nombre del visitante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.png';
+
+            // Guardar la imagen en el almacenamiento público
+            Storage::disk('public')->put('fotos_visitante/' . $imageName, $image);
+
+            // Actualizar la ruta de la imagen en el modelo
+            $visitante->Foto_Visitante = 'fotos_visitante/' . $imageName;
         }
+
+        // Procesar la imagen cargada manualmente (si se selecciona un archivo)
+        if ($request->hasFile('Foto_Visitante_File')) {
+            $image = $request->file('Foto_Visitante_File');
+
+            // Generar un nombre de archivo basado en el nombre del visitante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar la imagen en el almacenamiento público
+            $path = $image->storeAs('fotos_visitante', $imageName, 'public');
+
+            // Actualizar la ruta de la imagen en el modelo
+            $visitante->Foto_Visitante = $path;
+        }
+
+        // Actualizar los demás campos del visitante
+        $visitante->Nombre_Visitante = $request->input('Nombre_Visitante');
+        $visitante->Tel_Cel_Visitante = $request->input('Tel_Cel_Visitante');
+
+        // Guardar los cambios
+        $visitante->save();
+
+        // Redirigir con mensaje de éxito
+        return redirect()->route('visitantes.index')
+            ->with('mensaje', 'Visitante actualizado con éxito')
+            ->with('icon', 'success');
     }
 
 
