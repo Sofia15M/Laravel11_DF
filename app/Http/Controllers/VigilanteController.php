@@ -5,21 +5,44 @@ namespace App\Http\Controllers;
 use App\Models\Vigilante;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class VigilanteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vigilantes = Vigilante::where('status', 'active')->paginate(10);
+
+        $query = Vigilante::where('status', 'active');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Vigilante', 'like', '%' . $request->search . '%')
+                  ->orWhere('Nombre_Vigilante', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $vigilantes = $query->paginate(10);
+
         return view('vigilantes.index', compact('vigilantes'));
+
     }
 
-    public function inactive()
+    public function inactive(Request $request)
     {
-        $vigilantes = Vigilante::where('status', 'inactive')->paginate(10);
+        $query = Vigilante::where('status', 'inactive');
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('ID_Vigilante', 'like', '%' . $request->search . '%')
+                  ->orWhere('Nombre_Vigilante', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $vigilantes = $query->paginate(10);
+
         return view('vigilantes.inactive', compact('vigilantes'));
     }
 
@@ -43,9 +66,11 @@ class VigilanteController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los campos del formulario
         $request->validate([
             'ID_Vigilante' => 'required|integer',
-            'Foto_Vigilante' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'Foto_Vigilante_File' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación para la imagen cargada
+            'imageData' => 'nullable|string', // Validación para la imagen capturada en base64
             'Nombre_Vigilante' => 'required|string|max:255',
             'Edad_Vigilante' => 'nullable|integer',
             'Cargo_Vigilante' => 'nullable|string|max:255',
@@ -56,15 +81,43 @@ class VigilanteController extends Controller
             'ID_UNIDAD' => 'nullable|integer',
         ]);
 
-        if ($request->hasFile('Foto_Vigilante')) {
-            $image = $request->file('Foto_Vigilante');
-            $path = $image->store('fotos_vigilantesr', 'public');
+        // Obtener y sanear el nombre del vigilante
+        $nombreVigilante = $request->get('Nombre_Vigilante');
+        $nombreLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombreVigilante); // Reemplaza espacios y caracteres especiales por "_"
+
+        // Procesar la imagen base64 (si se captura desde la cámara)
+        if ($request->filled('imageData')) {
+            $imageData = $request->input('imageData');
+            $imageData = str_replace('data:image/png;base64,', '', $imageData);
+            $imageData = str_replace(' ', '+', $imageData);
+            $image = base64_decode($imageData);
+
+            // Generar un nombre de archivo basado en el nombre del vigilante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.png';
+
+            // Guardar la imagen en el almacenamiento público
+            Storage::disk('public')->put('fotos_vigilantes/' . $imageName, $image);
+
+            // Asignar la ruta de la imagen
+            $path = 'fotos_vigilantes/' . $imageName;
         }
 
+        // Procesar la imagen cargada manualmente (si se selecciona un archivo)
+        if ($request->hasFile('Foto_Vigilante_File')) {
+            $image = $request->file('Foto_Vigilante_File');
+
+            // Generar un nombre de archivo único basado en el nombre del vigilante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar la imagen en el almacenamiento público
+            $path = $image->storeAs('fotos_vigilantes', $imageName, 'public');
+        }
+
+        // Crear el vigilante y asignar los datos
         $vigilante = new Vigilante([
             'ID_Vigilante' => $request->get('ID_Vigilante', uniqid()), // Proporciona un valor único si no se proporciona
-            'Foto_Vigilante' => $path ?? null,
-            'Nombre_Vigilante' => $request->get('Nombre_Vigilante'),
+            'Foto_Vigilante' => $path ?? null, // Guardar la ruta de la imagen si existe
+            'Nombre_Vigilante' => $nombreVigilante,
             'Edad_Vigilante' => $request->get('Edad_Vigilante'),
             'Cargo_Vigilante' => $request->get('Cargo_Vigilante'),
             'Direccion_Vigilante' => $request->get('Direccion_Vigilante'),
@@ -74,13 +127,15 @@ class VigilanteController extends Controller
             'ID_UNIDAD' => $request->get('ID_UNIDAD'),
         ]);
 
+        // Guardar el vigilante en la base de datos
         $vigilante->save();
 
+        // Redirigir a la lista de vigilantes con un mensaje de éxito
         return redirect()->route('vigilantes.index')
             ->with('mensaje', 'Vigilante creado con éxito')
             ->with('icon', 'success');
-
     }
+
 
     /**
      * Display the specified resource.
@@ -105,8 +160,10 @@ class VigilanteController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Validar los campos del formulario
         $request->validate([
-            'Foto_Vigilante' => 'nullable|string|max:255',
+            'Foto_Vigilante_File' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación para imagen subida
+            'imageData' => 'nullable|string', // Validación para la imagen base64
             'Nombre_Vigilante' => 'required|string|max:255',
             'Edad_Vigilante' => 'nullable|integer',
             'Cargo_Vigilante' => 'nullable|string|max:255',
@@ -115,16 +172,61 @@ class VigilanteController extends Controller
             'Tiempo_trabajo' => 'nullable|string|max:255',
         ]);
 
+        // Buscar al vigilante
         $vigilante = Vigilante::findOrFail($id);
 
-        // Actualizar los datos del estudiante
-        $vigilante->update($request->all());
+        // Obtener y sanear el nombre del vigilante
+        $nombreVigilante = $request->input('Nombre_Vigilante');
+        $nombreLimpio = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombreVigilante); // Reemplaza espacios y caracteres especiales por "_"
 
-        // Redireccionar a la vista de listado de estudiantes
+        // Procesar la imagen base64 (si se captura desde la cámara)
+        if ($request->filled('imageData')) {
+            $imageData = $request->input('imageData');
+            $imageData = str_replace('data:image/png;base64,', '', $imageData);
+            $imageData = str_replace(' ', '+', $imageData);
+            $image = base64_decode($imageData);
+
+            // Generar un nombre de archivo único basado en el nombre del vigilante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.png';
+
+            // Guardar la imagen en el almacenamiento público
+            Storage::disk('public')->put('fotos_vigilantes/' . $imageName, $image);
+
+            // Actualizar la ruta de la imagen en el modelo
+            $vigilante->Foto_Vigilante = 'fotos_vigilantes/' . $imageName;
+        }
+
+        // Procesar la imagen cargada manualmente (si se selecciona un archivo)
+        if ($request->hasFile('Foto_Vigilante_File')) {
+            $image = $request->file('Foto_Vigilante_File');
+
+            // Generar un nombre de archivo único basado en el nombre del vigilante
+            $imageName = $nombreLimpio . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+            // Guardar la imagen en el almacenamiento público
+            $path = $image->storeAs('fotos_vigilantes', $imageName, 'public');
+
+            // Actualizar la ruta de la imagen en el modelo
+            $vigilante->Foto_Vigilante = $path;
+        }
+
+        // Actualizar los demás campos del vigilante
+        $vigilante->Nombre_Vigilante = $nombreVigilante;
+        $vigilante->Edad_Vigilante = $request->input('Edad_Vigilante');
+        $vigilante->Cargo_Vigilante = $request->input('Cargo_Vigilante');
+        $vigilante->Direccion_Vigilante = $request->input('Direccion_Vigilante');
+        $vigilante->Tel_Cel_Vigilante = $request->input('Tel_Cel_Vigilante');
+        $vigilante->Tiempo_trabajo = $request->input('Tiempo_trabajo');
+
+        // Guardar los cambios en la base de datos
+        $vigilante->save();
+
+        // Redirigir con mensaje de éxito
         return redirect()->route('vigilantes.index')
             ->with('mensaje', 'Vigilante actualizado con éxito')
             ->with('icon', 'success');
     }
+
 
     public function updateStatus($id)
     {
