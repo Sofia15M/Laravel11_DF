@@ -32,7 +32,7 @@
 
                     <div class="mb-4">
                         @if (auth()->user()->id_rol == 1)
-                            <a href="{{ route('apartamentos.create') }}" class="bg-azul dark:bg-azul1 hover:bg-azul dark:hover:bg-azul1 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
+                            <a href="{{ route('apartamentos.create') }}" class="bg-Azul3 dark:bg-Azul3 hover:bg-Azul2 dark:hover:bg-Azul4 text-white font-bold py-2 px-4 rounded mr-2 mb-2 float-left" title="Añadir registro">
                                 <svg class="h-5 w-5 text-gray-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                                     <line x1="12" y1="8" x2="12" y2="16" />
@@ -46,7 +46,7 @@
                                 <line x1="1" y1="1" x2="23" y2="23" />
                             </svg>
                         </a>
-                        <a href="{{ route('apartamentos.pdf')}}" class="bg-azul dark:bg-azul1 hover:bg-azul1 dark:hover:bg-azul text-white font-bold py-2 px-4 rounded float-right" title="Imprimir" target="_blank">
+                        <a href="{{ route('apartamentos.pdf')}}" class="bg-Azul3 dark:bg-Azul3 hover:bg-Azul2 dark:hover:bg-Azul34 text-white font-bold py-2 px-4 rounded float-right" title="Imprimir" target="_blank">
                             <svg class="h-5 w-5 text-gray-100" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z"/>
                                 <path d="M14 3v4a1 1 0 0 0 1 1h4" />
