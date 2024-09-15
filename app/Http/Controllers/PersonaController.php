@@ -16,7 +16,7 @@ class PersonaController extends Controller
             FROM administradors
             " . ($request->filled('search') ? "WHERE ID_Administrador LIKE '%{$search}%'" : "") . "
             UNION ALL
-            SELECT Id_Domiciliario AS ID, Nombre_Recidente AS Foto, 'domiciliarios' AS Tabla
+            SELECT Id_Domiciliario AS ID, Foto_Domiciliario AS Foto, 'domiciliarios' AS Tabla
             FROM domiciliarios
             " . ($request->filled('search') ? "WHERE Id_Domiciliario LIKE '%{$search}%'" : "") . "
             UNION ALL
