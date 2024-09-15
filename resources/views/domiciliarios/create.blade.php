@@ -59,8 +59,8 @@
                             </div>
 
                             <div class="mb-5">
-                                <label for="id_Apartamento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">N. Apartamento:</label>
-                                <select name="id_Apartamento" id="id_Apartamento" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <label for="ID_Apartamento" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">N. Apartamento:</label>
+                                <select name="ID_Apartamento" id="id_Apartamento" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                     <option value="">Seleccione un apartamento</option>
                                     @foreach($apartamentos as $apartamento)
                                         <option value="{{ $apartamento->ID_Apartamento }}">{{ $apartamento->ID_Apartamento }} ({{ $apartamento->status }})</option>
