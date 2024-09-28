@@ -222,6 +222,7 @@ class VisitanteController extends Controller
         try {
             $visitante = Visitante::findOrFail($id);
             $visitante->status = 'inactive';
+            $visitante->Hora_Salida = now(); // Guardar la hora actual en el campo Hora_Salida
             $visitante->save();
 
             return response()->json(['success' => true]);
@@ -230,6 +231,7 @@ class VisitanteController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
 
     public function activateStatus($id)
     {

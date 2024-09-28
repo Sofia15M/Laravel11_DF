@@ -198,7 +198,7 @@
 <script>
     document.getElementById('openApiButton').addEventListener('click', function() {
     // Cambia la URL por la de tu API
-    const apiUrl = '10.171.146.125:5000'; // Reemplaza con la URL de tu API
+    const apiUrl = 'http://192.168.154.228:5000'; // Reemplaza con la URL de tu API
 
     // Abre la URL en una nueva pestaña
     window.open(apiUrl, '_blank');
